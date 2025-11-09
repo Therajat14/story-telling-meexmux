@@ -23,7 +23,7 @@ function Spark() {
   return (
     <section
       data-scroll-section
-      className="min-h-screen flex items-center justify-center py-24 md:py-32 bg-gradient-to-b from-peach-50 via-lavender-50 to-sage-50 relative overflow-hidden"
+      className="min-h-screen flex items-center justify-center py-24 md:py-32 bg-gradient-to-b from-rose-50 via-amber-50 to-orange-50 relative overflow-hidden"
       data-bg-color="#fff5f0"
     >
       {/* Decorative elements */}

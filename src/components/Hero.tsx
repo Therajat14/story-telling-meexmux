@@ -28,6 +28,7 @@ function Hero() {
           delay: 0.8,
           duration: 1,
           ease: "power2.out",
+          stagger: 0.03,
         });
       }
     }, 100);
@@ -85,39 +86,37 @@ function Hero() {
         >
           MEETMUX
         </h1>
+        <div ref={subtitleRef}>
+          {/* Animated subtitle */}
+          <div data-animation="hero-subtitle">
+            <p
+              className="text-3xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-rose-500 to-amber-500 mb-4"
+              style={{ fontFamily: "'Playfair Display', serif" }}
+            >
+              Where strangers become stories
+            </p>
 
-        {/* Animated subtitle */}
-        <div data-animation="hero-subtitle">
-          <p
-            className="text-3xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-rose-500 to-amber-500 mb-4"
-            style={{ fontFamily: "'Playfair Display', serif" }}
-          >
-            Where strangers become stories
-          </p>
+            <p className="text-xl md:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+              Meet through moments, not matches.
+            </p>
 
-          <p
-            ref={subtitleRef}
-            className="text-xl md:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed"
-          >
-            Meet through moments, not matches.
-          </p>
-        </div>
-
-        {/* Trust indicators */}
-        <div className="mt-12 flex items-center justify-center space-x-8 text-sm text-gray-500">
-          <div className="flex items-center space-x-2">
-            <div className="flex -space-x-2">
-              {[1, 2, 3, 4].map((i) => (
-                <div
-                  key={i}
-                  className="w-8 h-8 rounded-full bg-gradient-to-br from-rose-400 to-amber-400 border-2 border-white"
-                />
-              ))}
+            {/* Trust indicators */}
+            <div className="mt-12 flex items-center justify-center space-x-8 text-sm text-gray-500">
+              <div className="flex items-center space-x-2">
+                <div className="flex -space-x-2">
+                  {[1, 2, 3, 4].map((i) => (
+                    <div
+                      key={i}
+                      className="w-8 h-8 rounded-full bg-gradient-to-br from-rose-400 to-amber-400 border-2 border-white"
+                    />
+                  ))}
+                </div>
+                <span>1,000+ early members</span>
+              </div>
+              <div className="hidden md:block w-1 h-1 bg-gray-400 rounded-full" />
+              <span className="hidden md:inline">Launching soon</span>
             </div>
-            <span>1,000+ early members</span>
           </div>
-          <div className="hidden md:block w-1 h-1 bg-gray-400 rounded-full" />
-          <span className="hidden md:inline">Launching soon</span>
         </div>
       </div>
 

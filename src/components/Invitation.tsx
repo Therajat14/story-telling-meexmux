@@ -1,8 +1,8 @@
-import { Heart, ArrowRight, Mail } from 'lucide-react';
-import { useState } from 'react';
+import { ArrowRight, Mail } from "lucide-react";
+import { useState } from "react";
 
 function Invitation() {
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState("");
   const [submitted, setSubmitted] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -15,21 +15,16 @@ function Invitation() {
       data-scroll-section
       className="min-h-screen flex items-center justify-center py-24 md:py-32 bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900 relative overflow-hidden"
     >
-      <div
-        data-scroll
-        data-scroll-speed="-2"
-        className="absolute inset-0"
-      >
+      <div data-scroll data-scroll-speed="-2" className="absolute inset-0">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-rose-500/20 rounded-full blur-3xl animate-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-amber-500/20 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
+        <div
+          className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-amber-500/20 rounded-full blur-3xl animate-pulse"
+          style={{ animationDelay: "1s" }}
+        />
       </div>
 
       <div className="container mx-auto px-6 relative z-10 max-w-7xl">
         <div className="max-w-4xl mx-auto text-center">
-          <div data-scroll data-scroll-speed="1" className="mb-12">
-            <Heart className="w-20 h-20 text-rose-400 mx-auto mb-8 animate-pulse" strokeWidth={1.5} />
-          </div>
-
           <div data-scroll data-scroll-speed="0.5">
             <div className="inline-block px-6 py-2 bg-rose-500 text-white rounded-full text-sm tracking-wide font-medium shadow-lg mb-8">
               THE INVITATION
@@ -83,7 +78,9 @@ function Invitation() {
               data-scroll-speed="1"
               className="max-w-2xl mx-auto mb-16 p-8 bg-white/10 backdrop-blur-sm border border-white/20 rounded-2xl"
             >
-              <div className="text-3xl font-bold text-white mb-4">Welcome aboard! 🎉</div>
+              <div className="text-3xl font-bold text-white mb-4">
+                Welcome aboard! 🎉
+              </div>
               <p className="text-xl text-gray-300">
                 We'll reach out soon with your early access details.
               </p>
@@ -91,7 +88,10 @@ function Invitation() {
           )}
 
           <div data-scroll data-scroll-speed="0.8" className="space-y-6">
-            <h3 className="text-5xl font-bold text-white" style={{ fontFamily: "'Playfair Display', serif" }}>
+            <h3
+              className="text-5xl font-bold text-white"
+              style={{ fontFamily: "'Playfair Display', serif" }}
+            >
               MEETMUX
             </h3>
             <p className="text-xl text-gray-400">
@@ -99,9 +99,15 @@ function Invitation() {
             </p>
 
             <div className="flex justify-center space-x-8 text-gray-500 text-sm pt-8">
-              <a href="#" className="hover:text-white transition-colors">Privacy</a>
-              <a href="#" className="hover:text-white transition-colors">Terms</a>
-              <a href="#" className="hover:text-white transition-colors">Contact</a>
+              <a href="#" className="hover:text-white transition-colors">
+                Privacy
+              </a>
+              <a href="#" className="hover:text-white transition-colors">
+                Terms
+              </a>
+              <a href="#" className="hover:text-white transition-colors">
+                Contact
+              </a>
             </div>
           </div>
         </div>

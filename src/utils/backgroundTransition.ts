@@ -2,12 +2,13 @@ import type LocomotiveScroll from 'locomotive-scroll';
 
 // RGB values for smooth interpolation (average of gradient colors)
 const sectionRGBValues = [
-  { r: 255, g: 245, b: 240 }, // Hero - peach-100/lavender-50/sage-100 blend
-  { r: 255, g: 247, b: 237 }, // Problem - peach-50/lavender-50/sage-50
-  { r: 255, g: 247, b: 237 }, // Spark - peach-50/lavender-50/sage-50
-  { r: 255, g: 247, b: 237 }, // Experience - peach-50/lavender-50/sage-50
-  { r: 255, g: 247, b: 237 }, // Emotion - peach-50/lavender-50/sage-50
-  { r: 17, g: 24, b: 39 }, // Invitation - gray-900
+  { r: 255, g: 245, b: 240 }, // Hero - peach-100/lavender-50/sage-100 blend (warm)
+  { r: 248, g: 250, b: 252 }, // Problem - slate-50/blue-50/indigo-50 (cool)
+  { r: 255, g: 241, b: 242 }, // Spark - rose-50/amber-50/orange-50 (warm orange)
+  { r: 250, g: 245, b: 255 }, // Experience - lavender-50/purple-50/fuchsia-50 (purple)
+  { r: 236, g: 253, b: 245 }, // AI - emerald-50/teal-50/cyan-50 (green/teal)
+  { r: 255, g: 241, b: 242 }, // Emotion - pink-50/rose-50/amber-50 (warm pink)
+  { r: 17, g: 24, b: 39 }, // Invitation - gray-900 (dark)
 ];
 
 export function initBackgroundTransition(locomotiveScroll: LocomotiveScroll | null) {

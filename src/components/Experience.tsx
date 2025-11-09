@@ -31,7 +31,7 @@ function Experience() {
   return (
     <section
       data-scroll-section
-      className="min-h-screen flex items-center justify-center py-24 md:py-32 bg-gradient-to-b from-peach-50 via-lavender-50 to-sage-50"
+      className="min-h-screen flex items-center justify-center py-24 md:py-32 bg-gradient-to-b from-lavender-50 via-purple-50 to-fuchsia-50"
     >
       <div className="container mx-auto px-6 max-w-7xl">
         <div className="text-center mb-20" data-scroll data-scroll-speed="1">

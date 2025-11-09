@@ -6,13 +6,120 @@ import {
   Users,
   MessageCircle,
 } from "lucide-react";
+import { useEffect, useRef } from "react";
+import SplitType from "split-type";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 function Problem() {
+  const paragraphRef = useRef<HTMLParagraphElement>(null);
+
+  useEffect(() => {
+    if (!paragraphRef.current) return;
+
+    let split: SplitType | null = null;
+    let trigger: ScrollTrigger | null = null;
+    let fallbackTimer: NodeJS.Timeout | null = null;
+
+    const timer = setTimeout(() => {
+      try {
+        // Split the paragraph into words
+        split = new SplitType(paragraphRef.current!, {
+          types: "words",
+          wordClass: "word-animate",
+        });
+
+        if (!split.words || split.words.length === 0) {
+          console.warn("No words found to animate");
+          return;
+        }
+
+        // Set initial state - words start visible but slightly offset
+        gsap.set(split.words, {
+          opacity: 0.3, // Start partially visible as fallback
+          y: 15,
+        });
+
+        // Wait for ScrollTrigger to be ready
+        ScrollTrigger.refresh();
+
+        // Create ScrollTrigger animation
+        trigger = ScrollTrigger.create({
+          trigger: paragraphRef.current,
+          start: "top 85%",
+          end: "top 50%",
+          scroller: "[data-scroll-container]",
+          onEnter: () => {
+            gsap.to(split!.words, {
+              opacity: 1,
+              y: 0,
+              stagger: 0.05, // 50ms delay between each word
+              duration: 0.6,
+              ease: "power2.out",
+            });
+          },
+          onEnterBack: () => {
+            gsap.to(split!.words, {
+              opacity: 1,
+              y: 0,
+              stagger: 0.05,
+              duration: 0.6,
+              ease: "power2.out",
+            });
+          },
+          once: false, // Allow re-animation
+        });
+
+        // Fallback: if ScrollTrigger doesn't work, animate after delay
+        fallbackTimer = setTimeout(() => {
+          if (split && split.words) {
+            const currentOpacity = gsap.getProperty(split.words[0], "opacity");
+            if (currentOpacity === 0.3) {
+              // Animation didn't trigger, so animate manually
+              gsap.to(split.words, {
+                opacity: 1,
+                y: 0,
+                stagger: 0.05,
+                duration: 0.6,
+                ease: "power2.out",
+              });
+            }
+          }
+        }, 2000);
+      } catch (error) {
+        console.error("Error setting up word animation:", error);
+        // Ensure text is visible even if animation fails
+        if (paragraphRef.current) {
+          paragraphRef.current.style.opacity = "1";
+        }
+      }
+    }, 800);
+
+    return () => {
+      clearTimeout(timer);
+      if (fallbackTimer) {
+        clearTimeout(fallbackTimer);
+      }
+      if (trigger) {
+        trigger.kill();
+      }
+      if (split) {
+        try {
+          split.revert();
+        } catch {
+          // Ignore revert errors
+        }
+      }
+    };
+  }, []);
+
   return (
     <section
       data-scroll-section
       data-section="problem"
-      className="min-h-screen flex items-center justify-center py-24 md:py-32 relative bg-gradient-to-b from-peach-50 via-lavender-50 to-sage-50 overflow-hidden"
+      className="min-h-screen flex items-center justify-center py-24 md:py-32 relative bg-gradient-to-b from-slate-50 via-blue-50 to-indigo-50 overflow-hidden"
     >
       {/* Decorative background elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
@@ -40,6 +147,7 @@ function Problem() {
               <h2
                 data-scroll
                 data-scroll-speed="0.5"
+                ref={paragraphRef}
                 className="text-4xl md:text-6xl lg:text-7xl font-bold text-gray-900 leading-tight mb-8"
                 style={{ fontFamily: "'Playfair Display', serif" }}
               >
@@ -50,15 +158,16 @@ function Problem() {
               <div className="space-y-8 text-lg md:text-xl text-gray-600 leading-relaxed">
                 {/* First point - How it used to be */}
                 <p className="flex items-start space-x-4 mb-6">
-                  <span className="text-rose-400 mt-1 text-2xl flex-shrink-0">✓</span>
-                  <span>
+                  <span className="text-rose-400 mt-1 text-2xl flex-shrink-0">
+                    ✓
+                  </span>
+                  <span ref={paragraphRef} className="inline-block">
                     We used to meet through{" "}
                     <strong className="text-gray-900">moments</strong> — a
                     shared laugh at a coffee shop, a spontaneous plan at the
                     gym, a common hobby at a meetup.
                   </span>
                 </p>
-
               </div>
             </div>
           </div>

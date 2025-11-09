@@ -3,6 +3,7 @@ import Hero from "./components/Hero";
 import Problem from "./components/Problem";
 import Spark from "./components/Spark";
 import Experience from "./components/Experience";
+import AI from "./components/AI";
 import Emotion from "./components/Emotion";
 import Invitation from "./components/Invitation";
 import { initSmoothScroll } from "./utils/smoothScroll";
@@ -36,6 +37,7 @@ function App() {
       <Problem />
       <Spark />
       <Experience />
+      <AI />
       <Emotion />
       <Invitation />
     </div>
