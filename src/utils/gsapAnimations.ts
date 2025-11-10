@@ -7,12 +7,11 @@ gsap.registerPlugin(ScrollTrigger);
 export const initGsapAnimations = (locomotiveScroll: LocomotiveScroll) => {
   locomotiveScroll.on('scroll', ScrollTrigger.update);
 
-  ScrollTrigger.scrollerProxy('[data-scroll-container]', {
+  ScrollTrigger.scrollerProxy(locomotiveScroll.el, {
     scrollTop(value) {
-      if (arguments.length) {
-        locomotiveScroll.scrollTo(value as number, { duration: 0, disableLerp: true });
-      }
-      return locomotiveScroll.scroll.instance.scroll.y;
+      return arguments.length
+        ? locomotiveScroll.scrollTo(value as number, { duration: 0, disableLerp: true })
+        : locomotiveScroll.scroll.instance.scroll.y;
     },
     getBoundingClientRect() {
       return {
@@ -22,14 +21,9 @@ export const initGsapAnimations = (locomotiveScroll: LocomotiveScroll) => {
         height: window.innerHeight,
       };
     },
-    pinType: (document.querySelector('[data-scroll-container]') as HTMLElement)?.style.transform
-      ? 'transform'
-      : 'fixed',
+    pinType: (locomotiveScroll.el as HTMLElement).style.transform ? 'transform' : 'fixed',
   });
 
   ScrollTrigger.addEventListener('refresh', () => locomotiveScroll.update());
   ScrollTrigger.refresh();
-
-  // Notify components that scroll system is ready
-  window.dispatchEvent(new CustomEvent('scrollReady'));
 };
