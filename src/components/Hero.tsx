@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { Heart, Sparkles } from "lucide-react";
 import SplitType from "split-type";
 import { gsap } from "gsap";
+import { Avatar, AvatarImage } from "./ui/avatar";
 
 function Hero() {
   const titleRef = useRef<HTMLHeadingElement>(null);
@@ -102,13 +103,17 @@ function Hero() {
 
             {/* Trust indicators */}
             <div className="mt-12 flex items-center justify-center space-x-8 text-sm text-gray-500">
-              <div className="flex items-center space-x-2">
+              <div className="flex items-center space-x-3">
                 <div className="flex -space-x-2">
-                  {[1, 2, 3, 4].map((i) => (
-                    <div
-                      key={i}
-                      className="w-8 h-8 rounded-full bg-gradient-to-br from-rose-400 to-amber-400 border-2 border-white"
-                    />
+                  {[
+                    "https://i.pinimg.com/736x/1a/e0/28/1ae0289b4aa8103b3a313b5cd89444dc.jpg",
+                    "https://img.tripi.vn/cdn-cgi/image/width=700,height=700/https://gcs.tripi.vn/public-tripi/tripi-feed/img/474297bHr/avatar-nam-that-tinh-co-don-dep-nhat_085125633.jpg",
+                    "https://img.freepik.com/premium-vector/beauty-girl-avatar-character-simple-vector_855703-381.jpg",
+                    "https://static.vecteezy.com/system/resources/thumbnails/030/648/627/small/a-girl-with-long-curly-hair-and-glasses-free-photo.jpg",
+                  ].map((src, idx) => (
+                    <Avatar key={idx} className="ring-white shadow-md">
+                      <AvatarImage src={src} alt="member" />
+                    </Avatar>
                   ))}
                 </div>
                 <span>1,000+ early members</span>
