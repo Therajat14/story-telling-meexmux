@@ -1,5 +1,6 @@
 import Hero from "./components/Hero";
 import Problem from "./components/Problem";
+import Spacer from "./components/Spacer";
 import Spark from "./components/Spark";
 import Experience from "./components/Experience";
 import AI from "./components/AI";
@@ -17,6 +18,7 @@ function App() {
     >
       <Hero />
       <Problem />
+      <Spacer />
       <Spark />
       <Experience />
       <AI />

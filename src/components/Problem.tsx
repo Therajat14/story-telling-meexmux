@@ -14,44 +14,37 @@ import SplitType from "split-type";
 gsap.registerPlugin(ScrollTrigger);
 
 function Problem() {
+  const sectionRef = useRef<HTMLDivElement>(null);
   const paragraphRef = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
-    const trigger = ScrollTrigger.create({
-      trigger: "[data-section='problem']",
-      start: "top bottom",
-      end: "bottom top",
-      onUpdate: (self) => {
-        gsap.utils.toArray<HTMLElement>("[data-speed]").forEach((el) => {
-          const speed = parseFloat(el.dataset.speed || "1");
-          const y = (self.progress * 2 - 1) * 100 * speed;
-          gsap.to(el, { y, ease: "none" });
-        });
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: "top top",
+        end: "+=2000",
+        scrub: 1,
+        pin: true,
       },
     });
 
     if (paragraphRef.current) {
       const split = new SplitType(paragraphRef.current, { types: "words" });
-      gsap.from(split.words, {
+      tl.from(split.words, {
         opacity: 0,
         y: 20,
         stagger: 0.05,
-        scrollTrigger: {
-          trigger: paragraphRef.current,
-          start: "top 80%",
-          end: "bottom 20%",
-          scrub: true,
-        },
       });
     }
 
     return () => {
-      trigger.kill();
+      tl.kill();
     };
   }, []);
 
   return (
     <section
+      ref={sectionRef}
       data-scroll-section
       data-section="problem"
       className="min-h-screen flex items-center justify-center py-24 md:py-32 relative bg-gradient-to-b from-slate-50 via-blue-50 to-indigo-50 overflow-hidden"
