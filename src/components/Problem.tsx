@@ -6,13 +6,16 @@ import {
   Users,
   MessageCircle,
 } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import SplitType from "split-type";
 
 gsap.registerPlugin(ScrollTrigger);
 
 function Problem() {
+  const paragraphRef = useRef<HTMLParagraphElement>(null);
+
   useEffect(() => {
     const trigger = ScrollTrigger.create({
       trigger: "[data-section='problem']",
@@ -26,6 +29,21 @@ function Problem() {
         });
       },
     });
+
+    if (paragraphRef.current) {
+      const split = new SplitType(paragraphRef.current, { types: "words" });
+      gsap.from(split.words, {
+        opacity: 0,
+        y: 20,
+        stagger: 0.05,
+        scrollTrigger: {
+          trigger: paragraphRef.current,
+          start: "top 80%",
+          end: "bottom 20%",
+          scrub: true,
+        },
+      });
+    }
 
     return () => {
       trigger.kill();
@@ -71,7 +89,10 @@ function Problem() {
               {/* Content blocks */}
               <div className="space-y-8 text-lg md:text-xl text-gray-600 leading-relaxed">
                 {/* First point - How it used to be */}
-                <p className="flex items-start space-x-4 mb-6">
+                <p
+                  ref={paragraphRef}
+                  className="flex items-start space-x-4 mb-6"
+                >
                   <span className="text-rose-400 mt-1 text-2xl flex-shrink-0">
                     ✓
                   </span>

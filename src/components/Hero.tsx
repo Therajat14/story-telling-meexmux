@@ -2,12 +2,16 @@ import { useEffect, useRef } from "react";
 import { Heart, Sparkles } from "lucide-react";
 import SplitType from "split-type";
 import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Reveal from "./ui/Reveal";
 import { Avatar, AvatarImage } from "./ui/avatar";
+
+gsap.registerPlugin(ScrollTrigger);
 
 function Hero() {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
+  const heartRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // Small delay to ensure DOM is ready
@@ -35,7 +39,25 @@ function Hero() {
       }
     }, 100);
 
-    return () => clearTimeout(timer);
+    // GSAP timeline for scroll-based zoom
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: heartRef.current,
+        start: "top top",
+        end: "bottom top",
+        scrub: true,
+      },
+    });
+
+    tl.to(heartRef.current, {
+      scale: 4,
+      ease: "none",
+    });
+
+    return () => {
+      clearTimeout(timer);
+      tl.kill(); // Kill the timeline on unmount
+    };
   }, []);
 
   return (
@@ -69,7 +91,11 @@ function Hero() {
 
       <div className="container mx-auto px-6 relative z-10 text-center max-w-7xl">
         {/* Heart icon with animation hook */}
-        <div className="mb-8 flex justify-center" data-animation="hero-heart">
+        <div
+          ref={heartRef}
+          className="mb-8 flex justify-center"
+          data-animation="hero-heart"
+        >
           <div className="relative">
             <Heart
               className="w-16 h-16 text-rose-400"
