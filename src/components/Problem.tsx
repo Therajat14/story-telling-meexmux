@@ -16,6 +16,8 @@ gsap.registerPlugin(ScrollTrigger);
 function Problem() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const paragraphRef = useRef<HTMLParagraphElement>(null);
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  const sideComponentRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const tl = gsap.timeline({
@@ -34,6 +36,32 @@ function Problem() {
         opacity: 0,
         y: 20,
         stagger: 0.05,
+      });
+    }
+
+    if (headingRef.current) {
+      const split = new SplitType(headingRef.current, { types: "chars" });
+      gsap.from(split.chars, {
+        opacity: 0.2,
+        stagger: 0.1,
+        scrollTrigger: {
+          trigger: headingRef.current,
+          start: "top 80%",
+          end: "bottom 20%",
+          scrub: true,
+        },
+      });
+    }
+
+    if (sideComponentRef.current) {
+      gsap.to(sideComponentRef.current, {
+        y: -100,
+        scrollTrigger: {
+          trigger: sectionRef.current,
+          start: "top top",
+          end: "bottom top",
+          scrub: true,
+        },
       });
     }
 
@@ -73,6 +101,7 @@ function Problem() {
 
               {/* Main headline */}
               <h2
+                ref={headingRef}
                 className="text-4xl md:text-6xl lg:text-7xl font-bold text-gray-900 leading-tight mb-8"
                 style={{ fontFamily: "'Playfair Display', serif" }}
               >
@@ -101,7 +130,7 @@ function Problem() {
           </div>
 
           {/* ========== RIGHT SIDE - VISUAL MOCKUP ========== */}
-          <div className="relative" data-speed="0.8">
+          <div ref={sideComponentRef} className="relative" data-speed="0.8">
             <div className="relative h-[600px] md:h-[700px] flex items-center justify-center">
               {/* Background shadow layers with animation hooks */}
               <div

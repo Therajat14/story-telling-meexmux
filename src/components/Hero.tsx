@@ -50,7 +50,7 @@ function Hero() {
     });
 
     tl.to(heartRef.current, {
-      scale: 4,
+      y: window.innerHeight,
       ease: "none",
     });
 
