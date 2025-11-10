@@ -18,7 +18,7 @@ const STORIES: Story[] = [
   {
     category: "Running",
     imageUrl:
-      "https://images.unsplash.com/photo-1546483875-ad9014c88eba?q=80&w=1600&auto=format&fit=crop",
+      "https://img.freepik.com/premium-photo/group-friends-maintains-healthy-lifestyle-by-running-outdoors-sunny-day-bonding-fitness-enjoying-energizing-effects-exercise-nature_1078540-8772.jpg",
     quote: "Joined a local running crew. Training for our first half-marathon!",
     author: "Michael",
     age: "32",
@@ -27,7 +27,7 @@ const STORIES: Story[] = [
   {
     category: "Coffee",
     imageUrl:
-      "https://images.unsplash.com/photo-1517705008128-361805f42e86?q=80&w=1600&auto=format&fit=crop",
+      "https://pauljohncaffeine.com/wp-content/uploads/2024/07/pexels-hoanggiahuy-7298246-2.png",
     quote:
       "Coffee tastings turned into weekly dates. Real conversation, zero awkwardness.",
     author: "Emma",
@@ -37,7 +37,7 @@ const STORIES: Story[] = [
   {
     category: "Hiking",
     imageUrl:
-      "https://images.unsplash.com/photo-1500530855697-b586d89ba3ee?q=80&w=1600&auto=format&fit=crop",
+      "https://images.stockcake.com/public/3/4/e/34e39832-ba77-4548-93e6-ed2b986b8a28_large/sunset-mountain-hike-stockcake.jpg",
     quote:
       "A spontaneous hike matched us up — the views and the company were both incredible.",
     author: "Nina",
@@ -47,7 +47,7 @@ const STORIES: Story[] = [
   {
     category: "Cycling",
     imageUrl:
-      "https://images.unsplash.com/photo-1485968579580-b6d095142e6e?q=80&w=1600&auto=format&fit=crop",
+      "https://beyondthemud.co.uk/wp-content/uploads/2024/05/IMG_1784-1013x675.jpeg",
     quote:
       "Weekend cycling loops turned into a close-knit crew and sunrise rides.",
     author: "Leo",
@@ -57,7 +57,7 @@ const STORIES: Story[] = [
   {
     category: "Art",
     imageUrl:
-      "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=1600&auto=format&fit=crop",
+      "https://thumbs.dreamstime.com/b/group-people-smiling-happy-looking-draw-partner-art-studio-group-people-smiling-happy-looking-draw-partner-223306525.jpg",
     quote:
       "Sketch walks became our Sunday ritual — creativity sparked connection.",
     author: "Mia",
@@ -67,7 +67,7 @@ const STORIES: Story[] = [
   {
     category: "Gaming",
     imageUrl:
-      "https://images.unsplash.com/photo-1511512578047-dfb367046420?q=80&w=1600&auto=format&fit=crop",
+      "https://t3.ftcdn.net/jpg/02/96/16/64/360_F_296166453_XwdTi73JIIZj4iEEw3GqJ4KZyAOoiIs5.jpg",
     quote:
       "LAN night strangers turned into friends — and our weekly co-op squad.",
     author: "Ethan",
@@ -77,7 +77,7 @@ const STORIES: Story[] = [
   {
     category: "Book Club",
     imageUrl:
-      "https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1600&auto=format&fit=crop",
+      "https://i.guim.co.uk/img/media/5cd70b4a7e56090d36fec7cc41250079b99cadfa/0_190_5700_3420/master/5700.jpg?width=445&dpr=1&s=none&crop=none",
     quote:
       "The discussions went beyond books — it felt like finding 'my people'.",
     author: "Hannah",
@@ -99,7 +99,7 @@ function RealStories() {
   return (
     <section
       ref={sectionRef}
-      className="relative flex items-start justify-center py-4 md:py-16 bg-gradient-to-b from-rose-50 via-amber-50 to-rose-50"
+      className="relative flex items-start justify-center py-4 md:py-0 bg-gradient-to-b from-rose-50 via-amber-50 to-rose-50"
     >
       <div className="sticky top-0 h-screen w-full overflow-hidden">
         <div className="container mx-auto px-4 md:px-6 relative z-10 max-w-6xl h-full flex flex-col py-6">
@@ -146,7 +146,7 @@ function RealStories() {
                 </ul>
               </div>
 
-              <div className="relative flex-1 min-w-0 max-h-[70vh]">
+              <div className="relative flex-1 min-w-0 max-h-[55vh]">
                 <div ref={slidesRef} className="right w-full h-full relative">
                   {STORIES.map((story) => (
                     <StoryItem key={story.author + story.imageUrl} {...story} />

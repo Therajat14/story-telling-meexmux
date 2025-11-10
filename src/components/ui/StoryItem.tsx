@@ -17,15 +17,15 @@ export const StoryItem = ({
   age,
   avatarUrl,
 }: StoryItemProps) => (
-  <div className="rs-slide absolute inset-0">
+  <div className="rs-slide absolute inset-0 rounded-xl">
     <img
       src={imageUrl}
       alt={`${category} story`}
-      className="absolute inset-0 w-full h-full object-cover"
+      className="absolute inset-0 w-full h-full object-cover  rounded-xl"
       loading="lazy"
     />
-    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 to-transparent"></div>
-    <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 text-white">
+    <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-black/10 rounded-xl to-transparent"></div>
+    <div className="absolute bottom-0 left-0 right-0 p-6 md:p-8 text-white  bg-black bg-opacity-50">
       <div className="mb-3 inline-flex items-center space-x-2 px-3 py-1.5 bg-white/15 rounded-full text-xs font-bold">
         <span>{category}</span>
       </div>
