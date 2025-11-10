@@ -1,7 +1,15 @@
+import { useEffect, useRef } from "react";
 import { Sparkles, MapPin, Shield, Zap, Users, Activity } from "lucide-react";
 import Reveal from "./ui/Reveal";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 function AI() {
+  const featureRefs = useRef<HTMLDivElement[]>([]);
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  const gradientSpanRef = useRef<HTMLSpanElement>(null);
   const features = [
     {
       icon: Zap,
@@ -25,6 +33,52 @@ function AI() {
       color: "from-emerald-400 to-teal-500",
     },
   ];
+
+  useEffect(() => {
+    featureRefs.current.forEach((el, index) => {
+      gsap.fromTo(
+        el,
+        { opacity: 0, y: 50 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: el,
+            start: "top 80%",
+            end: "top 50%",
+            scrub: false,
+            toggleActions: "play none none reverse",
+          },
+        }
+      );
+    });
+  }, []);
+
+  useEffect(() => {
+    if (headingRef.current && gradientSpanRef.current) {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: headingRef.current,
+          start: "top 80%",
+          end: "top 20%",
+          scrub: 1,
+        },
+      });
+
+      tl.fromTo(
+        headingRef.current,
+        { opacity: 0, y: 50 },
+        { opacity: 1, y: 0, duration: 1, ease: "power3.out" }
+      ).fromTo(
+        gradientSpanRef.current,
+        { backgroundPosition: "200% 0" },
+        { backgroundPosition: "-200% 0", duration: 2, ease: "none" },
+        "<"
+      );
+    }
+  }, []);
 
   return (
     <section
@@ -56,14 +110,16 @@ function AI() {
 
           <Reveal>
             <h2
-              data-scroll
-              data-scroll-speed="0.5"
+              ref={headingRef}
               className="text-4xl md:text-6xl lg:text-7xl font-bold text-gray-900 leading-tight mb-8"
               style={{ fontFamily: "'Playfair Display', serif" }}
             >
               MeetMux is an AI-powered,
               <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-500 via-amber-500 to-rose-500">
+              <span
+                ref={gradientSpanRef}
+                className="text-transparent bg-clip-text bg-gradient-to-r from-rose-500 via-amber-500 to-rose-500"
+              >
                 activity-first social platform
               </span>
             </h2>
@@ -85,14 +141,12 @@ function AI() {
           {features.map((feature, index) => {
             const Icon = feature.icon;
             return (
-              <div
-                key={index}
-                data-scroll
-                data-scroll-speed={index % 2 === 0 ? "1" : "-1"}
-                className="group bg-white rounded-3xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 hover:scale-105"
-              >
-                <div
-                  className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${feature.color} flex items-center justify-center mb-6 transform transition-transform group-hover:rotate-12 group-hover:scale-110`}
+                              <div
+                                key={index}
+                                ref={(el) => (featureRefs.current[index] = el!)}
+                                className="group bg-white rounded-3xl p-8 shadow-lg border border-transparent hover:border-rose-400 hover:shadow-xl transition-all duration-300 hover:scale-105"
+                              >                <div
+                  className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${feature.color} flex items-center justify-center mb-6 transform transition-transform group-hover:rotate-12 group-hover:scale-110 animate-pulse-slow`}
                 >
                   <Icon className="w-8 h-8 text-white" strokeWidth={2} />
                 </div>
