@@ -46,23 +46,23 @@ function Hero() {
       {/* Animated background gradients */}
       <div
         data-scroll
-        data-scroll-speed="-2"
-        data-parallax="-0.5"
+        data-scroll-speed="-4"
+        data-parallax="-1"
         className="absolute inset-0 bg-gradient-to-br from-peach-100 via-lavender-50 to-sage-100 opacity-60"
       />
 
       {/* Floating decorative elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div
-          data-parallax="2"
+          data-parallax="4"
           className="absolute top-20 left-10 w-32 h-32 bg-rose-300/20 rounded-full blur-2xl"
         />
         <div
-          data-parallax="-1.5"
+          data-parallax="-3"
           className="absolute top-1/3 right-20 w-48 h-48 bg-amber-300/20 rounded-full blur-3xl"
         />
         <div
-          data-parallax="1"
+          data-parallax="2"
           className="absolute bottom-1/4 left-1/4 w-40 h-40 bg-purple-300/20 rounded-full blur-2xl"
         />
       </div>

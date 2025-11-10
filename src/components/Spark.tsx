@@ -17,7 +17,7 @@ function Spark() {
     offset: ["start 80%", "end 20%"],
   });
   const oldScale = useTransform(oldProgress, [0, 1], [0.9, 1.08]);
-  const newScale = useTransform(newProgress, [0, 1], [0.9, 1.12]);
+  const newScale = useTransform(newProgress, [0, 1], [0.9, 1.08]);
 
   const activities = [
     "Morning Runs",
