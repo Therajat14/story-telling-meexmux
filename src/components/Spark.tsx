@@ -1,23 +1,40 @@
 import { SlidingNumber } from "@/components/ui/shadcn-io/sliding-number";
 import { Zap, Frown, Smile, TrendingUp, Activity } from "lucide-react";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import { motion, useScroll, useTransform } from "framer-motion";
 import Reveal from "./ui/Reveal";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+
+gsap.registerPlugin(ScrollTrigger);
 
 function Spark() {
-  // Framer Motion scroll-based scaling (no overlap: capped scale)
+  const sectionRef = useRef<HTMLDivElement | null>(null);
   const oldRef = useRef<HTMLDivElement | null>(null);
   const newRef = useRef<HTMLDivElement | null>(null);
-  const { scrollYProgress: oldProgress } = useScroll({
-    target: oldRef,
-    offset: ["start 80%", "end 20%"],
-  });
-  const { scrollYProgress: newProgress } = useScroll({
-    target: newRef,
-    offset: ["start 80%", "end 20%"],
-  });
-  const oldScale = useTransform(oldProgress, [0, 1], [0.9, 1.08]);
-  const newScale = useTransform(newProgress, [0, 1], [0.9, 1.08]);
+
+  useEffect(() => {
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: true,
+      },
+    });
+
+    tl.to(oldRef.current, {
+      y: -100,
+      ease: "none",
+    }).to(
+      newRef.current,
+      {
+        y: 100,
+        ease: "none",
+      },
+      0
+    );
+  }, []);
 
   const activities = [
     "Morning Runs",
@@ -58,6 +75,7 @@ function Spark() {
 
   return (
     <section
+      ref={sectionRef}
       data-scroll-section
       className="min-h-screen flex items-center justify-center py-24 md:py-32 bg-gradient-to-b from-rose-50 via-amber-50 to-orange-50 relative overflow-hidden"
       data-bg-color="#fff5f0"
@@ -114,7 +132,6 @@ function Spark() {
             ref={oldRef}
             data-scrub="scale"
             className="bg-gray-100 rounded-[3rem] p-12 flex flex-col items-center justify-center space-y-6 min-h-[500px] relative overflow-hidden group"
-            style={{ scale: oldScale, willChange: "transform" }}
           >
             {/* Fade overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-gray-200/80 to-transparent pointer-events-none" />
@@ -146,8 +163,6 @@ function Spark() {
             className="bg-gradient-to-br from-rose-400 via-amber-400 to-rose-400 rounded-[3rem] p-12 flex flex-col items-center justify-center space-y-6 min-h-[500px] relative overflow-hidden group"
             style={{
               backgroundSize: "200% 200%",
-              scale: newScale,
-              willChange: "transform",
             }}
           >
             {/* Animated shine */}

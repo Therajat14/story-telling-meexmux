@@ -74,7 +74,8 @@ function Hero() {
     <section
       ref={sectionRef}
       data-scroll-section
-      className="min-h-screen flex items-center justify-center py-24 md:py-32 relative overflow-hidden"
+      className="flex items-center justify-center py-24 md:py-32 relative overflow-hidden"
+      style={{ height: "100vh" }}
     >
       {/* Animated background gradients */}
       <div
