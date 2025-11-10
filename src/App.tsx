@@ -1,6 +1,6 @@
 import Hero from "./components/Hero";
 import Problem from "./components/Problem";
-import Spacer from "./components/Spacer";
+
 import Spark from "./components/Spark";
 import Experience from "./components/Experience";
 import AI from "./components/AI";
@@ -13,11 +13,10 @@ function App() {
     <div
       className="bg-gradient-to-b from-peach-50 via-lavender-50 to-sage-50"
       style={{
-        transition: "background-color 1.5s cubic-bezier(0.4, 0, 0.2, 1)",
+        transition: "background-color 2.5s ease-in-out",
       }}
     >
       <Hero />
-
       <Problem />
       <Spark />
       <Experience />

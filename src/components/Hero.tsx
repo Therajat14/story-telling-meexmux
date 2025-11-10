@@ -45,24 +45,16 @@ function Hero() {
       scrollTrigger: {
         trigger: sectionRef.current,
         start: "top top",
-        end: "+=1000",
+        end: "+=2000",
         scrub: true,
         pin: true,
       },
     });
 
     tl.to(heartRef.current, {
-      y: window.innerHeight * 0.5,
+      y: window.innerHeight,
       ease: "none",
-    })
-      .to(heartRef.current, {
-        y: window.innerHeight * 0.4,
-        ease: "none",
-      })
-      .to(heartRef.current, {
-        scale: 4,
-        ease: "none",
-      });
+    });
 
     return () => {
       clearTimeout(timer);
@@ -74,8 +66,7 @@ function Hero() {
     <section
       ref={sectionRef}
       data-scroll-section
-      className="flex items-center justify-center py-24 md:py-32 relative overflow-hidden"
-      style={{ height: "100vh" }}
+      className="min-h-screen flex items-center justify-center py-24 md:py-32 relative overflow-hidden"
     >
       {/* Animated background gradients */}
       <div
