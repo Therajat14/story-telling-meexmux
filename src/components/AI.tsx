@@ -1,11 +1,4 @@
-import {
-  Sparkles,
-  MapPin,
-  Shield,
-  Zap,
-  Users,
-  Activity,
-} from "lucide-react";
+import { Sparkles, MapPin, Shield, Zap, Users, Activity } from "lucide-react";
 
 function AI() {
   const features = [
@@ -108,103 +101,9 @@ function AI() {
             );
           })}
         </div>
-
-        {/* Key Benefits */}
-        <div className="max-w-5xl mx-auto">
-          <div className="bg-gradient-to-r from-rose-50 via-amber-50 to-rose-50 rounded-3xl p-10 md:p-12 border-2 border-rose-200 shadow-xl relative overflow-hidden">
-            {/* Shine effect */}
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent transform -skew-x-12 animate-pulse" />
-
-            <div className="relative z-10">
-              <div className="flex items-center justify-center mb-8">
-                <div className="w-20 h-20 rounded-full bg-gradient-to-br from-rose-500 to-amber-500 flex items-center justify-center">
-                  <Users className="w-10 h-10 text-white" strokeWidth={2} />
-                </div>
-              </div>
-
-              <h3
-                className="text-3xl md:text-4xl font-bold text-gray-900 text-center mb-8"
-                style={{ fontFamily: "'Playfair Display', serif" }}
-              >
-                Real connections, powered by AI
-              </h3>
-
-              <div className="grid md:grid-cols-2 gap-6">
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 rounded-full bg-rose-100 flex items-center justify-center flex-shrink-0">
-                    <MapPin className="w-6 h-6 text-rose-600" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-gray-900 mb-2 text-lg">
-                      Location-Based Discovery
-                    </h4>
-                    <p className="text-gray-600">
-                      Find people nearby who share your interests and are ready
-                      to connect.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 rounded-full bg-amber-100 flex items-center justify-center flex-shrink-0">
-                    <Shield className="w-6 h-6 text-amber-600" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-gray-900 mb-2 text-lg">
-                      Verified Profiles
-                    </h4>
-                    <p className="text-gray-600">
-                      AI verification ensures you're meeting real people, not
-                      fake profiles.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 rounded-full bg-emerald-100 flex items-center justify-center flex-shrink-0">
-                    <Activity className="w-6 h-6 text-emerald-600" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-gray-900 mb-2 text-lg">
-                      Activity Matching
-                    </h4>
-                    <p className="text-gray-600">
-                      Connect through real-time and planned activities that you
-                      both love.
-                    </p>
-                  </div>
-                </div>
-
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 rounded-full bg-purple-100 flex items-center justify-center flex-shrink-0">
-                    <Zap className="w-6 h-6 text-purple-600" />
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-gray-900 mb-2 text-lg">
-                      Smart Recommendations
-                    </h4>
-                    <p className="text-gray-600">
-                      Our AI learns your preferences to suggest the best
-                      connections and activities.
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Bottom CTA */}
-        <div className="text-center mt-16">
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Experience the future of social connection. Where AI meets
-            authenticity, and technology brings people together in real life.
-          </p>
-        </div>
       </div>
     </section>
   );
 }
 
 export default AI;
-
