@@ -12,6 +12,7 @@ function Hero() {
   const titleRef = useRef<HTMLHeadingElement>(null);
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const heartRef = useRef<HTMLDivElement>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     // Small delay to ensure DOM is ready
@@ -42,10 +43,11 @@ function Hero() {
     // GSAP timeline for scroll-based zoom
     const tl = gsap.timeline({
       scrollTrigger: {
-        trigger: heartRef.current,
+        trigger: sectionRef.current,
         start: "top top",
-        end: "bottom top",
+        end: "+=2000",
         scrub: true,
+        pin: true,
       },
     });
 
@@ -62,6 +64,7 @@ function Hero() {
 
   return (
     <section
+      ref={sectionRef}
       data-scroll-section
       className="min-h-screen flex items-center justify-center py-24 md:py-32 relative overflow-hidden"
     >
