@@ -29,4 +29,7 @@ export const initGsapAnimations = (locomotiveScroll: LocomotiveScroll) => {
 
   ScrollTrigger.addEventListener('refresh', () => locomotiveScroll.update());
   ScrollTrigger.refresh();
+
+  // Notify components that scroll system is ready
+  window.dispatchEvent(new CustomEvent('scrollReady'));
 };

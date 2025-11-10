@@ -1,4 +1,5 @@
 import { ArrowRight, Mail } from "lucide-react";
+import Reveal from "./ui/Reveal";
 import { useState } from "react";
 
 function Invitation() {
@@ -26,20 +27,26 @@ function Invitation() {
       <div className="container mx-auto px-6 relative z-10 max-w-7xl">
         <div className="max-w-4xl mx-auto text-center">
           <div data-scroll data-scroll-speed="0.5">
-            <div className="inline-block px-6 py-2 bg-rose-500 text-white rounded-full text-sm tracking-wide font-medium shadow-lg mb-8">
-              THE INVITATION
-            </div>
+            <Reveal>
+              <div className="inline-block px-6 py-2 bg-rose-500 text-white rounded-full text-sm tracking-wide font-medium shadow-lg mb-8">
+                THE INVITATION
+              </div>
+            </Reveal>
 
-            <h2
-              className="text-6xl md:text-8xl font-bold text-white leading-tight mb-8"
-              style={{ fontFamily: "'Playfair Display', serif" }}
-            >
-              Join the movement.
-            </h2>
+            <Reveal>
+              <h2
+                className="text-6xl md:text-8xl font-bold text-white leading-tight mb-8"
+                style={{ fontFamily: "'Playfair Display', serif" }}
+              >
+                Join the movement.
+              </h2>
+            </Reveal>
 
-            <p className="text-2xl md:text-3xl text-gray-300 mb-16 leading-relaxed max-w-3xl mx-auto">
-              Be part of bringing back authentic human connection.
-            </p>
+            <Reveal index={1}>
+              <p className="text-2xl md:text-3xl text-gray-300 mb-16 leading-relaxed max-w-3xl mx-auto">
+                Be part of bringing back authentic human connection.
+              </p>
+            </Reveal>
           </div>
 
           {!submitted ? (
@@ -51,7 +58,7 @@ function Invitation() {
             >
               <div className="flex flex-col sm:flex-row gap-4">
                 <div className="flex-1 relative">
-                  <Mail className="absolute left-6 top-1/2 transform -translate-y-1/2 text-gray-400 w-6 h-6" />
+                  <Mail className="absolute left-6 top-1/2 transform -translate-y-1/2 z-20  text-gray-400 w-6 h-6" />
                   <input
                     type="email"
                     value={email}

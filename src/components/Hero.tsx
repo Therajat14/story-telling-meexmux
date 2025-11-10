@@ -2,6 +2,7 @@ import { useEffect, useRef } from "react";
 import { Heart, Sparkles } from "lucide-react";
 import SplitType from "split-type";
 import { gsap } from "gsap";
+import Reveal from "./ui/Reveal";
 import { Avatar, AvatarImage } from "./ui/avatar";
 
 function Hero() {
@@ -80,26 +81,32 @@ function Hero() {
         </div>
 
         {/* Main title */}
-        <h1
-          ref={titleRef}
-          className="text-6xl md:text-8xl lg:text-9xl font-bold mb-6 text-gray-900"
-          style={{ fontFamily: "'Playfair Display', serif" }}
-        >
-          MEETMUX
-        </h1>
+        <Reveal>
+          <h1
+            ref={titleRef}
+            className="text-6xl md:text-8xl lg:text-9xl font-bold mb-6 text-gray-900"
+            style={{ fontFamily: "'Playfair Display', serif" }}
+          >
+            MEETMUX
+          </h1>
+        </Reveal>
         <div ref={subtitleRef}>
           {/* Animated subtitle */}
           <div data-animation="hero-subtitle">
-            <p
-              className="text-3xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-rose-500 to-amber-500 mb-4"
-              style={{ fontFamily: "'Playfair Display', serif" }}
-            >
-              Where strangers become stories
-            </p>
+            <Reveal>
+              <p
+                className="text-3xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-rose-500 to-amber-500 mb-4"
+                style={{ fontFamily: "'Playfair Display', serif" }}
+              >
+                Where strangers become stories
+              </p>
+            </Reveal>
 
-            <p className="text-xl md:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
-              Meet through moments, not matches.
-            </p>
+            <Reveal index={1}>
+              <p className="text-xl md:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+                Meet through moments, not matches.
+              </p>
+            </Reveal>
 
             {/* Trust indicators */}
             <div className="mt-12 flex items-center justify-center space-x-8 text-sm text-gray-500">

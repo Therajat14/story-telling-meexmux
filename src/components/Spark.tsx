@@ -1,6 +1,24 @@
+import { SlidingNumber } from "@/components/ui/shadcn-io/sliding-number";
 import { Zap, Frown, Smile, TrendingUp, Activity } from "lucide-react";
+import { useRef } from "react";
+import { motion, useScroll, useTransform } from "framer-motion";
+import Reveal from "./ui/Reveal";
 
 function Spark() {
+  // Framer Motion scroll-based scaling (no overlap: capped scale)
+  const oldRef = useRef<HTMLDivElement | null>(null);
+  const newRef = useRef<HTMLDivElement | null>(null);
+  const { scrollYProgress: oldProgress } = useScroll({
+    target: oldRef,
+    offset: ["start 80%", "end 20%"],
+  });
+  const { scrollYProgress: newProgress } = useScroll({
+    target: newRef,
+    offset: ["start 80%", "end 20%"],
+  });
+  const oldScale = useTransform(oldProgress, [0, 1], [0.9, 1.08]);
+  const newScale = useTransform(newProgress, [0, 1], [0.9, 1.12]);
+
   const activities = [
     "Morning Runs",
     "Coffee Meetups",
@@ -18,6 +36,24 @@ function Spark() {
     "Pottery",
     "Tennis",
     "Meditation",
+  ];
+
+  const stats = [
+    {
+      label: "Success rate",
+      value: 98.9,
+      padStart: true,
+    },
+    {
+      label: "Activities",
+      value: 500,
+      padStart: 3,
+    },
+    {
+      label: "Members",
+      value: 99999,
+      padStart: 4,
+    },
   ];
 
   return (
@@ -41,36 +77,44 @@ function Spark() {
       <div className="container mx-auto px-6 relative z-10 max-w-7xl">
         {/* Header */}
         <div className="text-center mb-20">
-          <div
-            data-scale
-            className="inline-block px-6 py-2 bg-rose-500 text-white rounded-full text-sm tracking-wide font-medium shadow-lg mb-8"
-          >
-            THE SPARK
-          </div>
+          <Reveal>
+            <div
+              data-scale
+              className="inline-block px-6 py-2 bg-rose-500 text-white rounded-full text-sm tracking-wide font-medium shadow-lg mb-8"
+            >
+              THE SPARK
+            </div>
+          </Reveal>
 
-          <h2
-            data-split
-            className="text-5xl md:text-7xl font-bold text-gray-900 leading-tight mb-8"
-            style={{ fontFamily: "'Playfair Display', serif" }}
-          >
-            Connection through activity.
-          </h2>
+          <Reveal>
+            <h2
+              data-split
+              className="text-5xl md:text-7xl font-bold text-gray-900 leading-tight mb-8"
+              style={{ fontFamily: "'Playfair Display', serif" }}
+            >
+              Connection through activity.
+            </h2>
+          </Reveal>
 
-          <p
-            data-fade
-            className="text-2xl md:text-3xl text-gray-700 max-w-4xl mx-auto leading-relaxed"
-          >
-            What if making new friends or finding a partner started with doing
-            something you love?
-          </p>
+          <Reveal index={1}>
+            <p
+              data-fade
+              className="text-2xl md:text-3xl text-gray-700 max-w-4xl mx-auto leading-relaxed"
+            >
+              What if making new friends or finding a partner started with doing
+              something you love?
+            </p>
+          </Reveal>
         </div>
 
         {/* Comparison cards */}
         <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto mb-20">
           {/* Old way */}
-          <div
+          <motion.div
+            ref={oldRef}
             data-scrub="scale"
             className="bg-gray-100 rounded-[3rem] p-12 flex flex-col items-center justify-center space-y-6 min-h-[500px] relative overflow-hidden group"
+            style={{ scale: oldScale, willChange: "transform" }}
           >
             {/* Fade overlay */}
             <div className="absolute inset-0 bg-gradient-to-t from-gray-200/80 to-transparent pointer-events-none" />
@@ -93,13 +137,18 @@ function Spark() {
                 <p>• Always wondering "what if"</p>
               </div>
             </div>
-          </div>
+          </motion.div>
 
           {/* New way */}
-          <div
+          <motion.div
+            ref={newRef}
             data-reveal
             className="bg-gradient-to-br from-rose-400 via-amber-400 to-rose-400 rounded-[3rem] p-12 flex flex-col items-center justify-center space-y-6 min-h-[500px] relative overflow-hidden group"
-            style={{ backgroundSize: "200% 200%" }}
+            style={{
+              backgroundSize: "200% 200%",
+              scale: newScale,
+              willChange: "transform",
+            }}
           >
             {/* Animated shine */}
             <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/20 to-transparent group-hover:translate-x-full transition-transform duration-1000" />
@@ -128,7 +177,7 @@ function Spark() {
               <TrendingUp className="w-4 h-4" />
               <span>Better way</span>
             </div>
-          </div>
+          </motion.div>
         </div>
 
         {/* Key insight */}
@@ -153,7 +202,7 @@ function Spark() {
           </div>
 
           <div data-stagger className="flex flex-wrap justify-center gap-4">
-            {activities.map((activity, index) => (
+            {activities.map((activity) => (
               <div
                 key={activity}
                 data-magnetic="0.2"
@@ -170,33 +219,17 @@ function Spark() {
           data-fade
           className="mt-24 grid grid-cols-3 gap-8 max-w-4xl mx-auto"
         >
-          <div className="text-center">
-            <div
-              data-counter="89"
-              className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-rose-500 to-amber-500"
-            >
-              0
+          {stats.map((stat) => (
+            <div key={stat.label} className="text-center">
+              <SlidingNumber
+                number={stat.value}
+                padStart={stat.padStart}
+                className="text-5xl font-bold"
+                digitClassName="text-transparent bg-clip-text bg-gradient-to-r from-rose-500 to-amber-500"
+              />
+              <div className="text-gray-600 mt-2">{stat.label}</div>
             </div>
-            <div className="text-gray-600 mt-2">Success rate</div>
-          </div>
-          <div className="text-center">
-            <div
-              data-counter="500"
-              className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-rose-500 to-amber-500"
-            >
-              0
-            </div>
-            <div className="text-gray-600 mt-2">Activities</div>
-          </div>
-          <div className="text-center">
-            <div
-              data-counter="1000"
-              className="text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-rose-500 to-amber-500"
-            >
-              0
-            </div>
-            <div className="text-gray-600 mt-2">Members</div>
-          </div>
+          ))}
         </div>
       </div>
 

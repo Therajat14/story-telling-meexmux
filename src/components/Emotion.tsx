@@ -9,6 +9,7 @@ import {
   Users,
 } from "lucide-react";
 import { ParallaxStories } from "./ui/ParallaxStories";
+import Reveal from "./ui/Reveal";
 
 function Emotion() {
   const moments = [
@@ -42,6 +43,8 @@ function Emotion() {
       age: "28",
       activity: "Yoga",
       icon: Users,
+      imageUrl:
+        "https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?q=80&w=1600&auto=format&fit=crop",
     },
     {
       quote:
@@ -50,6 +53,8 @@ function Emotion() {
       age: "32",
       activity: "Running",
       icon: Mountain,
+      imageUrl:
+        "https://images.unsplash.com/photo-1546483875-ad9014c88eba?q=80&w=1600&auto=format&fit=crop",
     },
     {
       quote:
@@ -58,6 +63,8 @@ function Emotion() {
       age: "26",
       activity: "Coffee",
       icon: Coffee,
+      imageUrl:
+        "https://images.unsplash.com/photo-1517705008128-361805f42e86?q=80&w=1600&auto=format&fit=crop",
     },
     {
       quote:
@@ -66,6 +73,8 @@ function Emotion() {
       age: "29",
       activity: "Photography",
       icon: Camera,
+      imageUrl:
+        "https://images.unsplash.com/photo-1520975661595-6453be3f7070?q=80&w=1600&auto=format&fit=crop",
     },
     {
       quote:
@@ -74,9 +83,10 @@ function Emotion() {
       age: "35",
       activity: "Reading",
       icon: Users,
+      imageUrl:
+        "https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1600&auto=format&fit=crop",
     },
   ];
-
 
   return (
     <section
@@ -104,35 +114,41 @@ function Emotion() {
       <div className="container mx-auto px-6 relative z-10 max-w-7xl">
         {/* Header */}
         <div className="text-center mb-20">
-          <div
-            data-scale
-            className="inline-flex items-center space-x-2 px-6 py-2 bg-rose-500 text-white rounded-full text-sm tracking-wide mb-8 shadow-lg font-medium"
-          >
-            <Sparkles className="w-4 h-4" />
-            <span>THE EMOTION</span>
-          </div>
-
-          <h2
-            data-split
-            className="text-5xl md:text-7xl font-bold text-gray-900 leading-tight mb-8"
-            style={{ fontFamily: "'Playfair Display', serif" }}
-          >
-            Because real stories
-            <br />
-            <span
-              className="text-transparent bg-clip-text bg-gradient-to-r from-rose-500 via-amber-500 to-rose-500 animate-gradient"
-              style={{ backgroundSize: "200% auto" }}
+          <Reveal>
+            <div
+              data-scale
+              className="inline-flex items-center space-x-2 px-6 py-2 bg-rose-500 text-white rounded-full text-sm tracking-wide mb-8 shadow-lg font-medium"
             >
-              start offline.
-            </span>
-          </h2>
+              <Sparkles className="w-4 h-4" />
+              <span>THE EMOTION</span>
+            </div>
+          </Reveal>
 
-          <p
-            data-fade
-            className="text-3xl font-medium text-gray-700 max-w-3xl mx-auto leading-relaxed"
-          >
-            Stop swiping. Start living.
-          </p>
+          <Reveal>
+            <h2
+              data-split
+              className="text-5xl md:text-7xl font-bold text-gray-900 leading-tight mb-8"
+              style={{ fontFamily: "'Playfair Display', serif" }}
+            >
+              Because real stories
+              <br />
+              <span
+                className="text-transparent bg-clip-text bg-gradient-to-r from-rose-500 via-amber-500 to-rose-500 animate-gradient"
+                style={{ backgroundSize: "200% auto" }}
+              >
+                start offline.
+              </span>
+            </h2>
+          </Reveal>
+
+          <Reveal index={1}>
+            <p
+              data-fade
+              className="text-3xl font-medium text-gray-700 max-w-3xl mx-auto leading-relaxed"
+            >
+              Stop swiping. Start living.
+            </p>
+          </Reveal>
 
           {/* Decorative divider */}
           <div className="flex items-center justify-center space-x-4 mt-8">
@@ -168,19 +184,6 @@ function Emotion() {
               </div>
             );
           })}
-        </div>
-
-        {/* Stories Gallery */}
-        <div className="max-w-7xl mx-auto mb-24">
-          <h3
-            data-fade
-            className="text-4xl font-bold text-gray-900 text-center mb-16"
-            style={{ fontFamily: "'Playfair Display', serif" }}
-          >
-            Real stories from real people
-          </h3>
-
-          <ParallaxStories stories={stories} />
         </div>
 
         {/* Comparison */}
@@ -254,24 +257,7 @@ function Emotion() {
             Join 1,000+ people already making real connections
           </p>
         </div>
-
-        {/* Quote */}
-        <div data-fade className="max-w-4xl mx-auto mt-24 text-center">
-          <blockquote
-            className="text-3xl md:text-5xl font-bold text-gray-800 leading-relaxed"
-            style={{ fontFamily: "'Playfair Display', serif" }}
-          >
-            "The best relationships start when you're not looking—
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-500 to-amber-500">
-              {" "}
-              they start when you're living."
-            </span>
-          </blockquote>
-        </div>
       </div>
-
-      {/* Bottom gradient */}
-      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-gray-900 to-transparent" />
     </section>
   );
 }

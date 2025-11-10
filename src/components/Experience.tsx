@@ -1,4 +1,5 @@
 import { MapPin, MessageCircle, Users, Calendar } from 'lucide-react';
+import Reveal from "./ui/Reveal";
 
 function Experience() {
   const steps = [
@@ -35,22 +36,28 @@ function Experience() {
     >
       <div className="container mx-auto px-6 max-w-7xl">
         <div className="text-center mb-20" data-scroll data-scroll-speed="1">
-          <div className="inline-block px-6 py-2 bg-rose-500 text-white rounded-full text-sm tracking-wide font-medium shadow-lg mb-8">
-            THE EXPERIENCE
-          </div>
+          <Reveal>
+            <div className="inline-block px-6 py-2 bg-rose-500 text-white rounded-full text-sm tracking-wide font-medium shadow-lg mb-8">
+              THE EXPERIENCE
+            </div>
+          </Reveal>
 
-          <h2
-            data-scroll
-            data-scroll-speed="0.5"
-            className="text-5xl md:text-7xl font-bold text-gray-900 leading-tight mb-8"
-            style={{ fontFamily: "'Playfair Display', serif" }}
-          >
-            How it works.
-          </h2>
+          <Reveal>
+            <h2
+              data-scroll
+              data-scroll-speed="0.5"
+              className="text-5xl md:text-7xl font-bold text-gray-900 leading-tight mb-8"
+              style={{ fontFamily: "'Playfair Display', serif" }}
+            >
+              How it works.
+            </h2>
+          </Reveal>
 
-          <p data-scroll data-scroll-speed="0.8" className="text-3xl font-medium text-gray-700 max-w-2xl mx-auto">
-            It's that simple.
-          </p>
+          <Reveal index={1}>
+            <p data-scroll data-scroll-speed="0.8" className="text-3xl font-medium text-gray-700 max-w-2xl mx-auto">
+              It's that simple.
+            </p>
+          </Reveal>
         </div>
 
         <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 max-w-7xl mx-auto">

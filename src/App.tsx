@@ -5,6 +5,7 @@ import Spark from "./components/Spark";
 import Experience from "./components/Experience";
 import AI from "./components/AI";
 import Emotion from "./components/Emotion";
+import RealStories from "./components/RealStories";
 import Invitation from "./components/Invitation";
 import { initSmoothScroll } from "./utils/smoothScroll";
 import { initScrollAnimations } from "./utils/scrollAnimations";
@@ -39,6 +40,7 @@ function App() {
       <Experience />
       <AI />
       <Emotion />
+      <RealStories />
       <Invitation />
     </div>
   );

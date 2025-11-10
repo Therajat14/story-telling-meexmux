@@ -1,4 +1,5 @@
 import { Sparkles, MapPin, Shield, Zap, Users, Activity } from "lucide-react";
+import Reveal from "./ui/Reveal";
 
 function AI() {
   const features = [
@@ -46,31 +47,37 @@ function AI() {
       <div className="container mx-auto px-6 relative z-10 max-w-7xl">
         {/* Header */}
         <div className="text-center mb-20">
-          <div className="inline-flex items-center space-x-2 px-6 py-2 bg-rose-500 text-white rounded-full text-sm tracking-wide font-medium shadow-lg mb-8">
-            <Sparkles className="w-4 h-4" />
-            <span>POWERED BY AI</span>
-          </div>
+          <Reveal>
+            <div className="inline-flex items-center space-x-2 px-6 py-2 bg-rose-500 text-white rounded-full text-sm tracking-wide font-medium shadow-lg mb-8">
+              <Sparkles className="w-4 h-4" />
+              <span>POWERED BY AI</span>
+            </div>
+          </Reveal>
 
-          <h2
-            data-scroll
-            data-scroll-speed="0.5"
-            className="text-4xl md:text-6xl lg:text-7xl font-bold text-gray-900 leading-tight mb-8"
-            style={{ fontFamily: "'Playfair Display', serif" }}
-          >
-            MeetMux is an AI-powered,
-            <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-500 via-amber-500 to-rose-500">
-              activity-first social platform
-            </span>
-          </h2>
+          <Reveal>
+            <h2
+              data-scroll
+              data-scroll-speed="0.5"
+              className="text-4xl md:text-6xl lg:text-7xl font-bold text-gray-900 leading-tight mb-8"
+              style={{ fontFamily: "'Playfair Display', serif" }}
+            >
+              MeetMux is an AI-powered,
+              <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-rose-500 via-amber-500 to-rose-500">
+                activity-first social platform
+              </span>
+            </h2>
+          </Reveal>
 
-          <p
-            data-fade
-            className="text-xl md:text-2xl text-gray-700 max-w-4xl mx-auto leading-relaxed"
-          >
-            We bring real, meaningful, in-person connections back into your
-            life.
-          </p>
+          <Reveal index={1}>
+            <p
+              data-fade
+              className="text-xl md:text-2xl text-gray-700 max-w-4xl mx-auto leading-relaxed"
+            >
+              We bring real, meaningful, in-person connections back into your
+              life.
+            </p>
+          </Reveal>
         </div>
 
         {/* Features Grid */}

@@ -9,6 +9,7 @@ interface Story {
   age: string;
   activity: string;
   icon: React.ComponentType<{ className?: string; strokeWidth?: number }>;
+  imageUrl?: string;
 }
 
 export const ParallaxStories = ({
@@ -40,6 +41,18 @@ export const ParallaxStories = ({
         key={`story-${idx}`}
         className="bg-white/95 backdrop-blur-sm rounded-3xl p-8 shadow-xl hover:shadow-2xl transition-all border-2 border-rose-100 h-full flex flex-col"
       >
+        {/* Photo */}
+        {story.imageUrl ? (
+          <div className="w-full mb-6">
+            <img
+              src={story.imageUrl}
+              alt={`${story.activity} by ${story.author}`}
+              className="w-full h-48 md:h-56 rounded-2xl object-cover"
+              loading="lazy"
+            />
+          </div>
+        ) : null}
+
         {/* Activity badge */}
         <div className="inline-flex items-center space-x-2 px-4 py-2 bg-rose-100 rounded-full text-xs font-bold text-rose-700 mb-6 w-fit">
           <Icon className="w-4 h-4" />

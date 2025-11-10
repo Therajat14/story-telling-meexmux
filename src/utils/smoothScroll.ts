@@ -8,6 +8,7 @@ export const initSmoothScroll = (container: HTMLElement | null): (() => void) | 
 
   let locomotiveScroll: LocomotiveScroll | null = null;
   let handleResize: (() => void) | null = null;
+  let handleScrollUpdate: (() => void) | null = null;
 
   // Initialize after DOM is ready
   const init = () => {
@@ -59,6 +60,12 @@ export const initSmoothScroll = (container: HTMLElement | null): (() => void) | 
     };
     window.addEventListener('resize', handleResize);
 
+    // Listen for scroll updates from components (like RealStories)
+    handleScrollUpdate = () => {
+      updateScroll();
+    };
+    window.addEventListener('scrollUpdate', handleScrollUpdate);
+
     // Update when images load
     const images = container.querySelectorAll('img');
     images.forEach((img) => {
@@ -77,6 +84,9 @@ export const initSmoothScroll = (container: HTMLElement | null): (() => void) | 
     clearTimeout(timeoutId);
     if (handleResize) {
       window.removeEventListener('resize', handleResize);
+    }
+    if (handleScrollUpdate) {
+      window.removeEventListener('scrollUpdate', handleScrollUpdate);
     }
     if (locomotiveScroll) {
       locomotiveScroll.destroy();
