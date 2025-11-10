@@ -45,16 +45,24 @@ function Hero() {
       scrollTrigger: {
         trigger: sectionRef.current,
         start: "top top",
-        end: "+=2000",
+        end: "+=1000",
         scrub: true,
         pin: true,
       },
     });
 
     tl.to(heartRef.current, {
-      y: window.innerHeight,
+      y: window.innerHeight * 0.5,
       ease: "none",
-    });
+    })
+      .to(heartRef.current, {
+        y: window.innerHeight * 0.4,
+        ease: "none",
+      })
+      .to(heartRef.current, {
+        scale: 4,
+        ease: "none",
+      });
 
     return () => {
       clearTimeout(timer);
