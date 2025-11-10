@@ -139,10 +139,37 @@ function Spark() {
         {/* Comparison cards */}
         <div className="grid md:grid-cols-2 gap-8 max-w-6xl mx-auto mb-20">
           {/* Old way */}
-          
+          <div
+            ref={oldRef}
+            className="bg-white rounded-3xl p-8 shadow-lg flex flex-col items-center text-center min-h-[320px] justify-center"
+          >
+            <Frown className="w-16 h-16 text-rose-500 mb-6" strokeWidth={1.5} />
+            <h3 className="text-3xl font-bold text-gray-900 mb-4">
+              The Old Way
+            </h3>
+            <p className="text-gray-600 text-lg leading-relaxed">
+              Swiping through endless profiles, awkward small talk, and
+              disappointing first dates. It's exhausting.
+            </p>
+          </div>
 
           {/* New way */}
-          
+          <div
+            ref={newRef}
+            className="bg-white rounded-3xl p-8 shadow-lg flex flex-col items-center text-center min-h-[320px] justify-center"
+          >
+            <Smile
+              className="w-16 h-16 text-amber-500 mb-6"
+              strokeWidth={1.5}
+            />
+            <h3 className="text-3xl font-bold text-gray-900 mb-4">
+              The MeetMux Way
+            </h3>
+            <p className="text-gray-600 text-lg leading-relaxed">
+              Connect with like-minded people over shared passions. Real
+              connections, real activities, real fun.
+            </p>
+          </div>
         </div>
 
         {/* Key insight */}
