@@ -13,9 +13,9 @@ function Hero() {
   const subtitleRef = useRef<HTMLParagraphElement>(null);
   const heartRef = useRef<HTMLDivElement>(null);
   const sectionRef = useRef<HTMLDivElement>(null);
-  const svgRef = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
+    // Small delay to ensure DOM is ready
     const timer = setTimeout(() => {
       if (titleRef.current) {
         const split = new SplitType(titleRef.current, { types: "chars" });
@@ -35,145 +35,70 @@ function Hero() {
           delay: 0.8,
           duration: 1,
           ease: "power2.out",
+          stagger: 0.03,
         });
       }
     }, 100);
 
-    // Fix pin height + scroll animation
+    // GSAP timeline for scroll-based zoom
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: sectionRef.current,
         start: "top top",
-        end: "+=200%", // Keeps section pinned longer
-        scrub: 1,
+        end: "+=2000",
+        scrub: true,
         pin: true,
-        anticipatePin: 1,
       },
     });
 
-    // Smooth upward floating of the heart
     tl.to(heartRef.current, {
-      y: window.innerHeight * 0.4,
+      y: window.innerHeight,
       ease: "none",
     });
 
     return () => {
       clearTimeout(timer);
-      tl.kill();
-      ScrollTrigger.getAll().forEach((st) => st.kill());
+      tl.kill(); // Kill the timeline on unmount
     };
-  }, []);
-
-  // === Background motion (kept intact, but with fixed scaling) ===
-  useEffect(() => {
-    if (svgRef.current && sectionRef.current) {
-      const tl = gsap.timeline({
-        repeat: -1,
-        yoyo: true,
-        paused: true,
-        defaults: { ease: "power2.inOut", duration: 2 },
-      });
-
-      tl.to(svgRef.current, { x: 120, y: -80, scale: 1.1, rotation: 6 })
-        .to(svgRef.current, { x: -100, y: 60, scale: 1.05, rotation: -4 })
-        .to(svgRef.current, { x: 0, y: 0, scale: 1, rotation: 0 });
-
-      ScrollTrigger.create({
-        trigger: sectionRef.current,
-        start: "top bottom",
-        end: "bottom top",
-        scrub: 1,
-        onUpdate: (self) => tl.progress(self.progress),
-      });
-
-      return () => {
-        tl.kill();
-      };
-    }
   }, []);
 
   return (
     <section
       ref={sectionRef}
       data-scroll-section
-      className="relative w-full h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-rose-50 via-peach-50 to-amber-50"
+      className="max-h-screen flex items-center justify-center py-24 md:py-32 absolute overflow-hidden"
     >
-      {/* === Warm “Connection Flow” SVG background === */}
-      <svg
-        ref={svgRef}
-        className="absolute inset-0 w-full h-full object-cover opacity-80 pointer-events-none"
-        xmlns="http://www.w3.org/2000/svg"
-        preserveAspectRatio="xMidYMid slice"
-      >
-        <defs>
-          <linearGradient
-            id="love-gradient"
-            x1="0%"
-            y1="0%"
-            x2="100%"
-            y2="100%"
-          >
-            <stop offset="0%" stopColor="#ff80b5" />
-            <stop offset="40%" stopColor="#ffb680" />
-            <stop offset="100%" stopColor="#ffd580" />
-          </linearGradient>
-          <filter id="glow-soft">
-            <feGaussianBlur stdDeviation="3" result="blur" />
-            <feMerge>
-              <feMergeNode in="blur" />
-              <feMergeNode in="SourceGraphic" />
-            </feMerge>
-          </filter>
-        </defs>
+      {/* Animated background gradients */}
+      <div
+        data-scroll
+        data-scroll-speed="-4"
+        data-parallax="-1"
+        className="absolute inset-0 bg-gradient-to-br from-peach-100 via-lavender-50 to-sage-100 opacity-60"
+      />
 
-        {/* Curved lines */}
-        <g
-          stroke="url(#love-gradient)"
-          strokeWidth="2"
-          fill="none"
-          filter="url(#glow-soft)"
-        >
-          <path d="M0 300 Q400 150 800 300 T1600 300" opacity="0.3" />
-          <path d="M0 500 Q300 350 600 500 T1200 500" opacity="0.25" />
-          <path d="M0 700 Q500 550 1000 700 T1600 700" opacity="0.2" />
-        </g>
-
-        {/* Floating particles */}
-        <g fill="url(#love-gradient)" filter="url(#glow-soft)">
-          {[...Array(12)].map((_, i) => (
-            <circle
-              key={i}
-              cx={i * 130}
-              cy={(i % 5) * 150 + 100}
-              r={5 + (i % 3)}
-              opacity="0.7"
-            >
-              <animate
-                attributeName="cy"
-                values={`${(i % 5) * 150 + 100};${(i % 5) * 150 - 100};${
-                  (i % 5) * 150 + 100
-                }`}
-                dur={`${3 + i * 0.4}s`}
-                repeatCount="indefinite"
-              />
-            </circle>
-          ))}
-        </g>
-      </svg>
-
-      {/* Floating blurred circles */}
+      {/* Floating decorative elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/3 right-10 w-96 h-96 bg-rose-200/30 rounded-full blur-3xl animate-pulse" />
         <div
-          className="absolute bottom-1/4 left-16 w-72 h-72 bg-amber-200/40 rounded-full blur-2xl animate-pulse"
-          style={{ animationDelay: "1s" }}
+          data-parallax="4"
+          className="absolute top-20 left-10 w-32 h-32 bg-rose-300/20 rounded-full blur-2xl"
+        />
+        <div
+          data-parallax="-3"
+          className="absolute top-1/3 right-20 w-48 h-48 bg-amber-300/20 rounded-full blur-3xl"
+        />
+        <div
+          data-parallax="2"
+          className="absolute bottom-1/4 left-1/4 w-40 h-40 bg-purple-300/20 rounded-full blur-2xl"
         />
       </div>
 
-      {/* === Main Content === */}
       <div className="container mx-auto px-6 relative z-10 text-center max-w-7xl">
-        {/* Heart */}
-        <div ref={heartRef} className="mb-8 flex justify-center">
+        {/* Heart icon with animation hook */}
+        <div
+          ref={heartRef}
+          className="mb-8 flex justify-center"
+          data-animation="hero-heart"
+        >
           <div className="relative">
             <Heart
               className="w-16 h-16 text-rose-400"
@@ -184,7 +109,7 @@ function Hero() {
           </div>
         </div>
 
-        {/* Title */}
+        {/* Main title */}
         <Reveal>
           <h1
             ref={titleRef}
@@ -194,49 +119,55 @@ function Hero() {
             MEETMUX
           </h1>
         </Reveal>
-
-        {/* Subtitle */}
         <div ref={subtitleRef}>
-          <Reveal>
-            <p
-              className="text-3xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-rose-500 to-amber-500 mb-4"
-              style={{ fontFamily: "'Playfair Display', serif" }}
-            >
-              Where strangers become stories
-            </p>
-          </Reveal>
+          {/* Animated subtitle */}
+          <div data-animation="hero-subtitle">
+            <Reveal>
+              <p
+                className="text-3xl md:text-5xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-rose-500 to-amber-500 mb-4"
+                style={{ fontFamily: "'Playfair Display', serif" }}
+              >
+                Where strangers become stories
+              </p>
+            </Reveal>
 
-          <Reveal index={1}>
-            <p className="text-xl md:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
-              Meet through moments, not matches.
-            </p>
-          </Reveal>
+            <Reveal index={1}>
+              <p className="text-xl md:text-2xl text-gray-600 max-w-4xl mx-auto leading-relaxed">
+                Meet through moments, not matches.
+              </p>
+            </Reveal>
 
-          {/* Community avatars */}
-          <div className="mt-12 flex items-center justify-center space-x-8 text-sm text-gray-500">
-            <div className="flex items-center space-x-3">
-              <div className="flex -space-x-2">
-                {[
-                  "https://i.pinimg.com/736x/1a/e0/28/1ae0289b4aa8103b3a313b5cd89444dc.jpg",
-                  "https://img.tripi.vn/cdn-cgi/image/width=700,height=700/https://gcs.tripi.vn/public-tripi/tripi-feed/img/474297bHr/avatar-nam-that-tinh-co-don-dep-nhat_085125633.jpg",
-                  "https://img.freepik.com/premium-vector/beauty-girl-avatar-character-simple-vector_855703-381.jpg",
-                  "https://static.vecteezy.com/system/resources/thumbnails/030/648/627/small/a-girl-with-long-curly-hair-and-glasses-free-photo.jpg",
-                ].map((src, idx) => (
-                  <Avatar key={idx} className="ring-white shadow-md">
-                    <AvatarImage src={src} alt="member" />
-                  </Avatar>
-                ))}
+            {/* Trust indicators */}
+            <div className="mt-12 flex items-center justify-center space-x-8 text-sm text-gray-500">
+              <div className="flex items-center space-x-3">
+                <div className="flex -space-x-2">
+                  {[
+                    "https://i.pinimg.com/736x/1a/e0/28/1ae0289b4aa8103b3a313b5cd89444dc.jpg",
+                    "https://img.tripi.vn/cdn-cgi/image/width=700,height=700/https://gcs.tripi.vn/public-tripi/tripi-feed/img/474297bHr/avatar-nam-that-tinh-co-don-dep-nhat_085125633.jpg",
+                    "https://img.freepik.com/premium-vector/beauty-girl-avatar-character-simple-vector_855703-381.jpg",
+                    "https://static.vecteezy.com/system/resources/thumbnails/030/648/627/small/a-girl-with-long-curly-hair-and-glasses-free-photo.jpg",
+                  ].map((src, idx) => (
+                    <Avatar key={idx} className="ring-white shadow-md">
+                      <AvatarImage src={src} alt="member" />
+                    </Avatar>
+                  ))}
+                </div>
+                <span>1,000+ early members</span>
               </div>
-              <span>1,000+ early members</span>
+              <div className="hidden md:block w-1 h-1 bg-gray-400 rounded-full" />
+              <span className="hidden md:inline">Launching soon</span>
             </div>
-            <div className="hidden md:block w-1 h-1 bg-gray-400 rounded-full" />
-            <span className="hidden md:inline">Launching soon</span>
           </div>
         </div>
       </div>
 
       {/* Scroll indicator */}
-      <div className="absolute bottom-10 left-1/2 transform -translate-x-1/2">
+      <div
+        data-scroll
+        data-scroll-speed="2"
+        data-animation="scroll-indicator"
+        className="absolute bottom-10 left-1/2 transform -translate-x-1/2"
+      >
         <div className="flex flex-col items-center space-y-2">
           <span className="text-xs text-gray-400 uppercase tracking-wider">
             Scroll
