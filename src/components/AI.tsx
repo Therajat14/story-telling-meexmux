@@ -35,25 +35,24 @@ function AI() {
   ];
 
   useEffect(() => {
-    featureRefs.current.forEach((el, index) => {
+    if (featureRefs.current.length > 0) {
       gsap.fromTo(
-        el,
+        featureRefs.current,
         { opacity: 0, y: 50 },
         {
           opacity: 1,
           y: 0,
           duration: 0.8,
           ease: "power3.out",
+          stagger: 0.2, // This creates the one-by-one effect
           scrollTrigger: {
-            trigger: el,
+            trigger: featureRefs.current[0].parentElement, // Trigger when the container is visible
             start: "top 80%",
-            end: "top 50%",
-            scrub: false,
             toggleActions: "play none none reverse",
           },
         }
       );
-    });
+    }
   }, []);
 
   useEffect(() => {
@@ -141,20 +140,20 @@ function AI() {
           {features.map((feature, index) => {
             const Icon = feature.icon;
             return (
-                              <div
-                                key={index}
-                                ref={(el) => (featureRefs.current[index] = el!)}
-                                className="group bg-white rounded-3xl p-8 shadow-lg border border-transparent hover:border-rose-400 hover:shadow-xl transition-all duration-300 hover:scale-105"
-                              >                <div
+              <div
+                key={index}
+                ref={(el) => (featureRefs.current[index] = el!)}
+                className="group bg-white rounded-3xl p-8 shadow-lg border border-transparent hover:border-rose-400 hover:shadow-xl transition-all duration-300 hover:scale-105"
+              >
+                {" "}
+                <div
                   className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${feature.color} flex items-center justify-center mb-6 transform transition-transform group-hover:rotate-12 group-hover:scale-110 animate-pulse-slow`}
                 >
                   <Icon className="w-8 h-8 text-white" strokeWidth={2} />
                 </div>
-
                 <h3 className="text-2xl font-bold text-gray-900 mb-4">
                   {feature.title}
                 </h3>
-
                 <p className="text-gray-600 leading-relaxed">
                   {feature.description}
                 </p>

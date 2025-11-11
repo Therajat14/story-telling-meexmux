@@ -17,7 +17,7 @@ function App() {
     >
       <Hero />
       <Problem />
-      <Spark />
+      {/* <Spark /> */}
       <Experience />
       <AI />
       <Emotion />

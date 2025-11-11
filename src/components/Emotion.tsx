@@ -1,3 +1,6 @@
+import { useEffect, useRef } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
 import {
   Heart,
   Laugh,
@@ -10,6 +13,8 @@ import {
 } from "lucide-react";
 import { ParallaxStories } from "./ui/ParallaxStories";
 import Reveal from "./ui/Reveal";
+
+gsap.registerPlugin(ScrollTrigger);
 
 function Emotion() {
   const moments = [
@@ -87,6 +92,52 @@ function Emotion() {
         "https://images.unsplash.com/photo-1519681393784-d120267933ba?q=80&w=1600&auto=format&fit=crop",
     },
   ];
+
+  const oldPointsRef = useRef<HTMLParagraphElement[]>([]);
+  const newPointsRef = useRef<HTMLParagraphElement[]>([]);
+
+  useEffect(() => {
+    const oldPoints = oldPointsRef.current;
+    const newPoints = newPointsRef.current;
+
+    if (oldPoints.length > 0) {
+      gsap.fromTo(
+        oldPoints,
+        { opacity: 0, y: 20 },
+        {
+          opacity: 1,
+          y: 0,
+          stagger: 0.2,
+          duration: 0.6,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: oldPoints[0].parentElement,
+            start: "top 85%",
+            toggleActions: "play none none reverse",
+          },
+        }
+      );
+    }
+
+    if (newPoints.length > 0) {
+      gsap.fromTo(
+        newPoints,
+        { opacity: 0, y: 20 },
+        {
+          opacity: 1,
+          y: 0,
+          stagger: 0.2,
+          duration: 0.6,
+          ease: "power3.out",
+          scrollTrigger: {
+            trigger: newPoints[0].parentElement,
+            start: "top 85%",
+            toggleActions: "play none none reverse",
+          },
+        }
+      );
+    }
+  }, []);
 
   return (
     <section
@@ -200,8 +251,12 @@ function Emotion() {
                   "Awkward first dates",
                   "Small talk",
                   "Wondering about chemistry",
-                ].map((text) => (
-                  <p key={text} className="flex items-start space-x-2">
+                ].map((text, index) => (
+                  <p
+                    key={text}
+                    ref={(el) => (oldPointsRef.current[index] = el!)}
+                    className="flex items-start space-x-2"
+                  >
                     <span className="text-red-500 mt-1">✗</span>
                     <span>{text}</span>
                   </p>
@@ -225,8 +280,12 @@ function Emotion() {
                   "Natural meetings",
                   "Real conversations",
                   "Chemistry reveals itself",
-                ].map((text) => (
-                  <p key={text} className="flex items-start space-x-2">
+                ].map((text, index) => (
+                  <p
+                    key={text}
+                    ref={(el) => (newPointsRef.current[index] = el!)}
+                    className="flex items-start space-x-2"
+                  >
                     <span className="mt-1 font-bold">✓</span>
                     <span>{text}</span>
                   </p>
