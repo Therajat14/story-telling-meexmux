@@ -31,8 +31,8 @@ export const initScrollAnimations = (
 
   if (listItems.length === 0 || slides.length === 0) return;
 
-  gsap.set(slides, { autoAlpha: 0 });
-  gsap.set(slides[0], { autoAlpha: 1 });
+  gsap.set(slides, { autoAlpha: 0, y: 0 });
+  gsap.set(slides[0], { autoAlpha: 1, y: 0 });
   if (fill) gsap.set(fill, { scaleY: 0, transformOrigin: "top left" });
   listItems.forEach((item, idx) => {
     gsap.set(item, { color: idx === 0 ? "#000" : "#008080" });
@@ -59,12 +59,12 @@ export const initScrollAnimations = (
     if (j === 0) {
       tl.set(item, { color: "#000" }, startTime).to(
         slides[j],
-        { autoAlpha: 1, duration: animationDurationPerSlide * 0.2 }, // Adjust duration
+        { autoAlpha: 1, y: 0, duration: animationDurationPerSlide * 0.2 }, // Adjust duration
         "<"
       );
     } else {
       tl.set(item, { color: "#000" }, startTime)
-        .to(slides[j], { autoAlpha: 1, duration: animationDurationPerSlide * 0.2 }, "<")
+        .to(slides[j], { autoAlpha: 1, y: 0, duration: animationDurationPerSlide * 0.2 }, "<")
         .set(listItems[j - 1], { color: "#008080" }, "<")
         .to(slides[j - 1], { autoAlpha: 0, duration: animationDurationPerSlide * 0.2 }, "<");
     }
