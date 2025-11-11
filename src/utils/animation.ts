@@ -50,18 +50,23 @@ export const initScrollAnimations = (
     },
   });
 
+  const totalPinDuration = stories.length * 250; // The 'end' value of the ScrollTrigger
+  const animationDurationPerSlide = totalPinDuration / stories.length; // Distribute the scroll evenly
+
   listItems.forEach((item, j) => {
+    const startTime = j * animationDurationPerSlide;
+
     if (j === 0) {
-      tl.set(item, { color: "#000" }, 0.01).to(
+      tl.set(item, { color: "#000" }, startTime).to(
         slides[j],
-        { autoAlpha: 1, duration: 0.2 },
+        { autoAlpha: 1, duration: animationDurationPerSlide * 0.2 }, // Adjust duration
         "<"
       );
     } else {
-      tl.set(item, { color: "#000" }, 0.5 * j)
-        .to(slides[j], { autoAlpha: 1, duration: 0.2 }, "<")
+      tl.set(item, { color: "#000" }, startTime)
+        .to(slides[j], { autoAlpha: 1, duration: animationDurationPerSlide * 0.2 }, "<")
         .set(listItems[j - 1], { color: "#008080" }, "<")
-        .to(slides[j - 1], { autoAlpha: 0, duration: 0.2 }, "<");
+        .to(slides[j - 1], { autoAlpha: 0, duration: animationDurationPerSlide * 0.2 }, "<");
     }
   });
 
