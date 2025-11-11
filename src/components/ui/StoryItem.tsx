@@ -17,7 +17,7 @@ export const StoryItem = ({
   age,
   avatarUrl,
 }: StoryItemProps) => (
-  <div className="rs-slide absolute inset-0 rounded-xl">
+  <div className="rs-slide absolute inset-0 rounded-xl overflow-hidden">
     <img
       src={imageUrl}
       alt={`${category} story`}

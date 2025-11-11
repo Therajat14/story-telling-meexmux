@@ -46,7 +46,7 @@ export const initScrollAnimations = (
   const totalPinDuration = stories.length * 250;
   const animationDurationPerSlide = totalPinDuration / stories.length;
 
-  const lastSlideAnimationEnd = (stories.length - 1) * animationDurationPerSlide + (animationDurationPerSlide * 0.2);
+  const lastSlideAnimationEnd = (stories.length - 1) * animationDurationPerSlide + (animationDurationPerSlide * 0.2) + 100;
   const tl = gsap.timeline({
     scrollTrigger: {
       trigger: sectionEl,
