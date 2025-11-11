@@ -42,7 +42,7 @@ export const initScrollAnimations = (
     scrollTrigger: {
       trigger: sectionEl,
       start: "top top",
-      end: "+=" + listItems.length * 80 + "%",
+      end: "+=" + listItems.length * 100 + "%",
       pin: true,
       scrub: true,
       anticipatePin: 1,
