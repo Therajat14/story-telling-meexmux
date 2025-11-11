@@ -89,4 +89,4 @@ const InteractiveMap = () => {
         </div>
     );
 };
-export default InteractiveMap
+export default InteractiveMap 

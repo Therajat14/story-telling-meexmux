@@ -276,3 +276,4 @@ export const AppMockup = ({
 };
 
 export default AppMockup;
+
