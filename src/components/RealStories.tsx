@@ -4,6 +4,8 @@ import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import SplitType from "split-type";
 
+import StarryNight from "./ui/StarryNight";
+
 gsap.registerPlugin(ScrollTrigger);
 
 type Story = {
@@ -146,14 +148,9 @@ function RealStories() {
       ref={sectionRef}
       data-scroll-section
       data-section="realstories"
-      className="min-h-screen flex items-center justify-center py-24 md:py-32 relative overflow-hidden bg-gradient-to-b from-rose-50 via-amber-50 to-rose-50"
+      className="min-h-screen flex items-center justify-center py-24 md:py-32 relative overflow-hidden"
     >
-      {/* Background Blobs */}
-      <div className="absolute inset-0 overflow-hidden pointer-events-none">
-        <div className="absolute top-1/4 right-10 w-96 h-96 bg-rose-300/20 rounded-full blur-3xl" />
-        <div className="absolute bottom-1/3 left-10 w-80 h-80 bg-amber-300/20 rounded-full blur-3xl" />
-        <div className="absolute top-1/2 left-1/3 w-96 h-96 bg-purple-300/20 rounded-full blur-3xl" />
-      </div>
+      <StarryNight />
 
       <div className="container mx-auto px-6 relative z-10 max-w-7xl">
         <div className="grid md:grid-cols-2 gap-20 lg:gap-24 items-center">
