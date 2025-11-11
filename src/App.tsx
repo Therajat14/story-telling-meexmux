@@ -21,7 +21,7 @@ function App() {
       <Experience />
       <AI />
       <Emotion />
-      <RealStories />
+      {/* <RealStories /> */}
       <Invitation />
     </div>
   );

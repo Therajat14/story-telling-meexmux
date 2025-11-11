@@ -45,7 +45,7 @@ function Hero() {
       scrollTrigger: {
         trigger: sectionRef.current,
         start: "top top",
-        end: "+=2000",
+        end: "bottom top",
         scrub: true,
         pin: true,
       },

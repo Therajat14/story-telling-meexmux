@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { Sparkles, MapPin, Shield, Zap, Users, Activity } from "lucide-react";
+import { Sparkles, Shield, Zap, Activity } from "lucide-react";
 import Reveal from "./ui/Reveal";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -7,9 +7,11 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 function AI() {
+  const sectionRef = useRef<HTMLDivElement>(null);
   const featureRefs = useRef<HTMLDivElement[]>([]);
   const headingRef = useRef<HTMLHeadingElement>(null);
   const gradientSpanRef = useRef<HTMLSpanElement>(null);
+
   const features = [
     {
       icon: Zap,
@@ -34,6 +36,24 @@ function AI() {
     },
   ];
 
+  // ========== SECTION PIN + SCROLL BEHAVIOR ==========
+  useEffect(() => {
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: "top top",
+        end: "bottom top",
+        scrub: 1,
+        pin: true,
+      },
+    });
+
+    return () => {
+      tl.kill();
+    };
+  }, []);
+
+  // ========== FEATURE CARD ENTRANCE ANIMATION ==========
   useEffect(() => {
     if (featureRefs.current.length > 0) {
       gsap.fromTo(
@@ -44,9 +64,9 @@ function AI() {
           y: 0,
           duration: 0.8,
           ease: "power3.out",
-          stagger: 0.2, // This creates the one-by-one effect
+          stagger: 0.2,
           scrollTrigger: {
-            trigger: featureRefs.current[0].parentElement, // Trigger when the container is visible
+            trigger: featureRefs.current[0].parentElement,
             start: "top 80%",
             toggleActions: "play none none reverse",
           },
@@ -55,13 +75,14 @@ function AI() {
     }
   }, []);
 
+  // ========== HEADING GRADIENT ANIMATION ==========
   useEffect(() => {
     if (headingRef.current && gradientSpanRef.current) {
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: headingRef.current,
           start: "top 80%",
-          end: "top 20%",
+          end: "bottom top",
           scrub: 1,
         },
       });
@@ -81,24 +102,36 @@ function AI() {
 
   return (
     <section
+      ref={sectionRef}
       data-scroll-section
-      className="min-h-screen flex items-center justify-center py-24 md:py-32 relative overflow-hidden bg-gradient-to-b from-emerald-50 via-teal-50 to-cyan-50"
+      data-section="ai"
+      className="
+        min-h-screen 
+        flex 
+        items-center 
+        justify-center 
+        py-24 md:py-32 
+        relative 
+        bg-gradient-to-b 
+        from-slate-50 via-blue-50 to-indigo-50 
+        overflow-hidden
+      "
     >
-      {/* Decorative background elements */}
+      {/* Decorative Background Elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div
-          data-parallax="1.5"
+          data-speed="0.5"
           className="absolute top-1/4 right-10 w-96 h-96 bg-purple-300/20 rounded-full blur-3xl animate-pulse"
         />
         <div
-          data-parallax="-1"
+          data-speed="0.8"
           className="absolute bottom-1/3 left-10 w-80 h-80 bg-rose-300/20 rounded-full blur-3xl animate-pulse"
           style={{ animationDelay: "1s" }}
         />
       </div>
 
       <div className="container mx-auto px-6 relative z-10 max-w-7xl">
-        {/* Header */}
+        {/* Header Section */}
         <div className="text-center mb-20">
           <Reveal>
             <div className="inline-flex items-center space-x-2 px-6 py-2 bg-rose-500 text-white rounded-full text-sm tracking-wide font-medium shadow-lg mb-8">
@@ -145,7 +178,6 @@ function AI() {
                 ref={(el) => (featureRefs.current[index] = el!)}
                 className="group bg-white rounded-3xl p-8 shadow-lg border border-transparent hover:border-rose-400 hover:shadow-xl transition-all duration-300 hover:scale-105"
               >
-                {" "}
                 <div
                   className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${feature.color} flex items-center justify-center mb-6 transform transition-transform group-hover:rotate-12 group-hover:scale-110 animate-pulse-slow`}
                 >
@@ -160,6 +192,14 @@ function AI() {
               </div>
             );
           })}
+        </div>
+
+        {/* Bottom CTA Indicator (Mobile) */}
+        <div className="md:hidden text-center mt-12">
+          <div className="inline-flex items-center space-x-2 bg-gradient-to-r from-rose-500 to-amber-500 text-white px-6 py-3 rounded-full text-sm font-bold shadow-xl animate-pulse">
+            <span>See how it works</span>
+            <span>→</span>
+          </div>
         </div>
       </div>
     </section>
