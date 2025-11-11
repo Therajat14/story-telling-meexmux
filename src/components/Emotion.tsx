@@ -192,15 +192,6 @@ function Emotion() {
             </h2>
           </Reveal>
 
-          <Reveal index={1}>
-            <p
-              data-fade
-              className="text-3xl font-medium text-gray-700 max-w-3xl mx-auto leading-relaxed"
-            >
-              Stop swiping. Start living.
-            </p>
-          </Reveal>
-
           {/* Decorative divider */}
           <div className="flex items-center justify-center space-x-4 mt-8">
             <div className="w-20 h-1 bg-gradient-to-r from-transparent via-rose-400 to-transparent rounded-full" />
@@ -210,31 +201,6 @@ function Emotion() {
             />
             <div className="w-20 h-1 bg-gradient-to-r from-transparent via-rose-400 to-transparent rounded-full" />
           </div>
-        </div>
-
-        {/* Moment cards */}
-        <div
-          data-stagger
-          className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-6xl mx-auto mb-24"
-        >
-          {moments.map((moment, index) => {
-            const Icon = moment.icon;
-            return (
-              <div
-                key={index}
-                data-scale
-                data-magnetic="0.2"
-                className="group bg-white/90 backdrop-blur-sm rounded-3xl p-8 text-center transition-all hover:scale-110 hover:bg-white hover:shadow-2xl cursor-pointer"
-              >
-                <div
-                  className={`w-20 h-20 mx-auto mb-4 rounded-2xl bg-gradient-to-br ${moment.color} flex items-center justify-center group-hover:rotate-12 group-hover:scale-110 transition-all duration-500`}
-                >
-                  <Icon className="w-10 h-10 text-white" strokeWidth={2} />
-                </div>
-                <p className="text-gray-700 font-bold text-lg">{moment.text}</p>
-              </div>
-            );
-          })}
         </div>
 
         {/* Comparison */}
@@ -296,26 +262,6 @@ function Emotion() {
         </div>
 
         {/* CTA */}
-        <div data-scale className="text-center">
-          <button
-            data-magnetic="0.4"
-            className="group relative px-16 py-8 bg-gradient-to-r from-rose-500 to-amber-500 text-white text-3xl font-bold rounded-full shadow-2xl overflow-hidden hover:shadow-rose-500/50 transition-all"
-          >
-            <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent transform -skew-x-12 translate-x-[-200%] group-hover:translate-x-[200%] transition-transform duration-1000" />
-
-            <span className="relative inline-flex items-center space-x-3">
-              <Music className="w-8 h-8" />
-              <span>Start your next story</span>
-              <span className="group-hover:translate-x-2 transition-transform">
-                →
-              </span>
-            </span>
-          </button>
-
-          <p className="mt-6 text-gray-600">
-            Join 1,000+ people already making real connections
-          </p>
-        </div>
       </div>
     </section>
   );
