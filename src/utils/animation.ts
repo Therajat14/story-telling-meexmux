@@ -1,3 +1,4 @@
+// src/utils/animation.ts
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -23,8 +24,8 @@ export const initScrollAnimations = (
   const listEl = listRef.current;
   const slidesEl = slidesRef.current;
 
-  if (!sectionEl || !listEl || !slidesEl || stories.length === 0) {
-    console.warn("initScrollAnimations: Missing elements or no stories provided.");
+  if (!sectionEl || !listEl || !slidesEl || !stories || stories.length === 0) {
+    console.warn("initScrollAnimations: missing elements or no stories");
     return;
   }
 
@@ -32,26 +33,31 @@ export const initScrollAnimations = (
   const slides = Array.from(slidesEl.querySelectorAll(".rs-slide"));
   const fill = fillRef.current;
 
-  if (listItems.length === 0 || slides.length === 0) return;
+  if (!slides.length || !listItems.length) {
+    console.warn("initScrollAnimations: no slides or list items found");
+    return;
+  }
 
+  // Ensure initial visibility
   gsap.set(slides, { autoAlpha: 0, y: 0 });
-  gsap.set(slides[0], { autoAlpha: 1, y: 0 });
+  gsap.set(slides[0], { autoAlpha: 1 });
+  gsap.set(listItems, { color: "#008080" });
+  gsap.set(listItems[0], { color: "#000" });
   if (fill) gsap.set(fill, { scaleY: 0, transformOrigin: "top left" });
-  listItems.forEach((item, idx) => {
-    gsap.set(item, { color: idx === 0 ? "#000" : "#008080" });
-  });
 
-  if (listItems.length === 0 || slides.length === 0) return;
+  const totalSlides = slides.length;
 
-  const totalPinDuration = stories.length * 250;
-  const animationDurationPerSlide = totalPinDuration / stories.length;
+  // Use viewport height per slide for robust spacing:
+  // give each slide roughly 1 viewport height (adjust multiplier if you want slower/faster)
+  const perSlideVH = window.innerHeight; // 1 * vh
+  const totalScrollDistance = perSlideVH * totalSlides; // reserve full viewport per slide
 
-  const lastSlideAnimationEnd = (stories.length - 1) * animationDurationPerSlide + (animationDurationPerSlide * 0.2) + 100;
+  // Create timeline with dynamic end
   const tl = gsap.timeline({
     scrollTrigger: {
       trigger: sectionEl,
       start: "top top",
-      end: "+=" + lastSlideAnimationEnd,
+      end: `+=${Math.round(totalScrollDistance)}`, // e.g. "+=4200"
       pin: true,
       scrub: true,
       anticipatePin: 1,
@@ -59,40 +65,77 @@ export const initScrollAnimations = (
     },
   });
 
-  listItems.forEach((item, j) => {
-    const startTime = j * animationDurationPerSlide;
+  // Build animation blocks — each slide gets a chunk of timeline
+  const slideChunk = tl.duration() || totalScrollDistance / totalSlides; // fallback
+  // We'll calculate explicit times based on index and perSlideVH to be deterministic:
+  const timePerSlide = totalScrollDistance / totalSlides;
 
-    if (j === 0) {
-      tl.set(item, { color: "#000" }, startTime).fromTo(
-        slides[j],
-        { autoAlpha: 0, y: 0 }, // Explicitly start from y:0
-        { autoAlpha: 1, y: 0, duration: animationDurationPerSlide * 0.2 }, // Explicitly end at y:0
-        "<"
+  slides.forEach((slide, i) => {
+    const startAt = i * timePerSlide;
+
+    // Fade current slide in
+    tl.to(
+      slide,
+      {
+        autoAlpha: 1,
+        duration: timePerSlide * 0.25,
+        ease: "none",
+      },
+      startAt
+    );
+
+    // Fade previous slide out (except for i === 0)
+    if (i > 0) {
+      tl.to(
+        slides[i - 1],
+        {
+          autoAlpha: 0,
+          duration: timePerSlide * 0.25,
+          ease: "none",
+        },
+        startAt
       );
-    } else {
-      tl.set(item, { color: "#000" }, startTime)
-        .fromTo(slides[j], { autoAlpha: 0, y: 0 }, { autoAlpha: 1, y: 0, duration: animationDurationPerSlide * 0.2 }, "<")
-        .set(listItems[j - 1], { color: "#008080" }, "<")
-        .to(slides[j - 1], { autoAlpha: 0, duration: animationDurationPerSlide * 0.2 }, "<");
+
+      // style list items: mark previous as muted, current as active
+      tl.set(listItems[i - 1], { color: "#008080" }, startAt);
     }
+
+    // Set current list item active
+    tl.set(listItems[i], { color: "#000" }, startAt);
   });
 
+  // Final fade-out - ensure the last slide fades out near the end
+  const lastStart = (totalSlides - 1) * timePerSlide;
+  tl.to(
+    slides[totalSlides - 1],
+    {
+      autoAlpha: 0,
+      duration: timePerSlide * 0.25,
+      ease: "none",
+    },
+    lastStart + timePerSlide * 0.6
+  );
+
+  // Animate fill bar across entire timeline
   if (fill) {
     tl.to(
       fill,
       {
         scaleY: 1,
         ease: "none",
-        duration: tl.duration() - 0.5,
+        duration: tl.duration() - 0.1,
       },
       0
     );
   }
 
+  // Refresh ScrollTrigger on resize (so end recalculates)
+  ScrollTrigger.addEventListener("refreshInit", () => {
+    // nothing special here — invalidateOnRefresh on timeline handles it
+  });
+
   return () => {
-    if (tl.scrollTrigger) {
-      tl.scrollTrigger.kill();
-    }
+    if (tl.scrollTrigger) tl.scrollTrigger.kill();
     tl.kill();
   };
 };

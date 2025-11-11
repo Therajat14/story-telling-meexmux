@@ -15,7 +15,6 @@ function Hero() {
   const sectionRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
 
-  // Initial animations
   useEffect(() => {
     const timer = setTimeout(() => {
       if (titleRef.current) {
@@ -40,29 +39,32 @@ function Hero() {
       }
     }, 100);
 
-    // Scroll-based pin and parallax
+    // Fix pin height + scroll animation
     const tl = gsap.timeline({
       scrollTrigger: {
         trigger: sectionRef.current,
         start: "top top",
-        end: "bottom top",
-        scrub: true,
+        end: "+=200%", // Keeps section pinned longer
+        scrub: 1,
         pin: true,
+        anticipatePin: 1,
       },
     });
 
+    // Smooth upward floating of the heart
     tl.to(heartRef.current, {
-      y: window.innerHeight / 2,
+      y: window.innerHeight * 0.4,
       ease: "none",
     });
 
     return () => {
       clearTimeout(timer);
       tl.kill();
+      ScrollTrigger.getAll().forEach((st) => st.kill());
     };
   }, []);
 
-  // === Romantic SVG background motion ===
+  // === Background motion (kept intact, but with fixed scaling) ===
   useEffect(() => {
     if (svgRef.current && sectionRef.current) {
       const tl = gsap.timeline({
@@ -86,7 +88,6 @@ function Hero() {
 
       return () => {
         tl.kill();
-        ScrollTrigger.getAll().forEach((st) => st.kill());
       };
     }
   }, []);
@@ -95,12 +96,12 @@ function Hero() {
     <section
       ref={sectionRef}
       data-scroll-section
-      className="min-h-screen flex items-center justify-center py-24 md:py-32 relative overflow-hidden bg-gradient-to-br from-rose-50 via-peach-50 to-amber-50"
+      className="relative w-full h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-rose-50 via-peach-50 to-amber-50"
     >
       {/* === Warm “Connection Flow” SVG background === */}
       <svg
         ref={svgRef}
-        className="absolute inset-0 w-full h-full opacity-80 pointer-events-none"
+        className="absolute inset-0 w-full h-full object-cover opacity-80 pointer-events-none"
         xmlns="http://www.w3.org/2000/svg"
         preserveAspectRatio="xMidYMid slice"
       >
@@ -116,7 +117,6 @@ function Hero() {
             <stop offset="40%" stopColor="#ffb680" />
             <stop offset="100%" stopColor="#ffd580" />
           </linearGradient>
-
           <filter id="glow-soft">
             <feGaussianBlur stdDeviation="3" result="blur" />
             <feMerge>
@@ -126,7 +126,7 @@ function Hero() {
           </filter>
         </defs>
 
-        {/* Flowing connection curves */}
+        {/* Curved lines */}
         <g
           stroke="url(#love-gradient)"
           strokeWidth="2"
@@ -138,7 +138,7 @@ function Hero() {
           <path d="M0 700 Q500 550 1000 700 T1600 700" opacity="0.2" />
         </g>
 
-        {/* Floating heart-like particles */}
+        {/* Floating particles */}
         <g fill="url(#love-gradient)" filter="url(#glow-soft)">
           {[...Array(12)].map((_, i) => (
             <circle
@@ -159,11 +159,9 @@ function Hero() {
             </circle>
           ))}
         </g>
-
-        {/* Soft linking arcs to resemble emotional connections */}
       </svg>
 
-      {/* === Floating warm orbs === */}
+      {/* Floating blurred circles */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <div className="absolute top-1/3 right-10 w-96 h-96 bg-rose-200/30 rounded-full blur-3xl animate-pulse" />
         <div
@@ -174,7 +172,7 @@ function Hero() {
 
       {/* === Main Content === */}
       <div className="container mx-auto px-6 relative z-10 text-center max-w-7xl">
-        {/* Heart icon */}
+        {/* Heart */}
         <div ref={heartRef} className="mb-8 flex justify-center">
           <div className="relative">
             <Heart
@@ -214,7 +212,7 @@ function Hero() {
             </p>
           </Reveal>
 
-          {/* Community indicators */}
+          {/* Community avatars */}
           <div className="mt-12 flex items-center justify-center space-x-8 text-sm text-gray-500">
             <div className="flex items-center space-x-3">
               <div className="flex -space-x-2">

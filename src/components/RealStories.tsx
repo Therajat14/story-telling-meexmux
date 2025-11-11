@@ -1,9 +1,10 @@
-// RealStories.tsx
 import { Sparkles } from "lucide-react";
-import { useRef } from "react";
-import { useGSAP } from "@gsap/react";
-import { initScrollAnimations } from "../utils/animation";
-import { StoryItem } from "./ui/StoryItem";
+import { useEffect, useRef } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import SplitType from "split-type";
+
+gsap.registerPlugin(ScrollTrigger);
 
 type Story = {
   category: string;
@@ -45,16 +46,6 @@ const STORIES: Story[] = [
     avatarUrl: "https://randomuser.me/api/portraits/women/65.jpg",
   },
   {
-    category: "Cycling",
-    imageUrl:
-      "https://beyondthemud.co.uk/wp-content/uploads/2024/05/IMG_1784-1013x675.jpeg",
-    quote:
-      "Weekend cycling loops turned into a close-knit crew and sunrise rides.",
-    author: "Leo",
-    age: "31",
-    avatarUrl: "https://randomuser.me/api/portraits/men/71.jpg",
-  },
-  {
     category: "Art",
     imageUrl:
       "https://thumbs.dreamstime.com/b/group-people-smiling-happy-looking-draw-partner-art-studio-group-people-smiling-happy-looking-draw-partner-223306525.jpg",
@@ -64,96 +55,172 @@ const STORIES: Story[] = [
     age: "24",
     avatarUrl: "https://randomuser.me/api/portraits/women/29.jpg",
   },
-  {
-    category: "Gaming",
-    imageUrl:
-      "https://t3.ftcdn.net/jpg/02/96/16/64/360_F_296166453_XwdTi73JIIZj4iEEw3GqJ4KZyAOoiIs5.jpg",
-    quote:
-      "LAN night strangers turned into friends — and our weekly co-op squad.",
-    author: "Ethan",
-    age: "22",
-    avatarUrl: "https://randomuser.me/api/portraits/men/46.jpg",
-  },
-  {
-    category: "Book Club",
-    imageUrl:
-      "https://i.guim.co.uk/img/media/5cd70b4a7e56090d36fec7cc41250079b99cadfa/0_190_5700_3420/master/5700.jpg?width=445&dpr=1&s=none&crop=none",
-    quote:
-      "The discussions went beyond books — it felt like finding 'my people'.",
-    author: "Hannah",
-    age: "33",
-    avatarUrl: "https://randomuser.me/api/portraits/women/9.jpg",
-  },
 ];
 
 function RealStories() {
-  const sectionRef = useRef<HTMLElement | null>(null);
-  const listRef = useRef<HTMLUListElement | null>(null);
-  const fillRef = useRef<HTMLDivElement | null>(null);
-  const slidesRef = useRef<HTMLDivElement | null>(null);
+  const sectionRef = useRef<HTMLDivElement>(null);
+  const headingRef = useRef<HTMLHeadingElement>(null);
+  const subtextRef = useRef<HTMLParagraphElement>(null);
+  const cardsRef = useRef<HTMLDivElement>(null);
 
-  useGSAP(() => {
-    initScrollAnimations(sectionRef, listRef, slidesRef, fillRef, STORIES);
+  useEffect(() => {
+    // Animate heading
+    const headingSplit = new SplitType(headingRef.current, { types: "chars" });
+    gsap.from(headingSplit.chars, {
+      opacity: 0,
+      y: 30,
+      stagger: 0.05,
+      ease: "power2.out",
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: "top 80%",
+        end: "top 60%",
+        scrub: 1,
+      },
+    });
+
+    // Animate subtext
+    const subtextSplit = new SplitType(subtextRef.current, { types: "words" });
+    gsap.from(subtextSplit.words, {
+      opacity: 0,
+      y: 20,
+      stagger: 0.08,
+      scrollTrigger: {
+        trigger: subtextRef.current,
+        start: "top 85%",
+        end: "top 55%",
+        scrub: 1,
+      },
+    });
+
+    // Cards scroll animation
+    const cards = gsap.utils.toArray<HTMLElement>(
+      cardsRef.current?.querySelectorAll(".story-card") || []
+    );
+
+    gsap.set(cards, { opacity: 0, scale: 0.9, yPercent: 10 });
+
+    const tl = gsap.timeline({
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: "top top",
+        end: "+=" + window.innerHeight * (cards.length - 1),
+        pin: true,
+        scrub: 1,
+        anticipatePin: 1,
+      },
+    });
+
+    cards.forEach((card, i) => {
+      const prev = cards[i - 1];
+      if (prev) {
+        tl.to(prev, {
+          opacity: 0,
+          scale: 0.9,
+          yPercent: -20,
+          duration: 0.5,
+          ease: "power2.out",
+        });
+      }
+      tl.to(
+        card,
+        {
+          opacity: 1,
+          scale: 1,
+          yPercent: 0,
+          duration: 0.7,
+          ease: "power2.out",
+        },
+        "<"
+      );
+    });
+
+    return () => {
+      tl.kill();
+      ScrollTrigger.getAll().forEach((st) => st.kill());
+    };
   }, []);
 
   return (
     <section
       ref={sectionRef}
-      className="relative flex items-start justify-center py-4 md:py-0 bg-gradient-to-b from-rose-50 via-amber-50 to-rose-50"
+      data-scroll-section
+      data-section="realstories"
+      className="min-h-screen flex items-center justify-center py-24 md:py-32 relative overflow-hidden bg-gradient-to-b from-rose-50 via-amber-50 to-rose-50"
     >
-      <div className="sticky top-0 h-screen w-full overflow-hidden">
-        <div className="container mx-auto px-4 md:px-6 relative z-10 max-w-6xl h-full flex flex-col py-6">
-          <div className="text-center mb-6 md:mb-8">
-            <div className="inline-flex items-center space-x-2 px-4 py-1.5 bg-rose-500 text-white rounded-full text-xs tracking-wide mb-4 shadow-md font-medium">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>REAL STORIES</span>
+      {/* Background Blobs */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-1/4 right-10 w-96 h-96 bg-rose-300/20 rounded-full blur-3xl" />
+        <div className="absolute bottom-1/3 left-10 w-80 h-80 bg-amber-300/20 rounded-full blur-3xl" />
+        <div className="absolute top-1/2 left-1/3 w-96 h-96 bg-purple-300/20 rounded-full blur-3xl" />
+      </div>
+
+      <div className="container mx-auto px-6 relative z-10 max-w-7xl">
+        <div className="grid md:grid-cols-2 gap-20 lg:gap-24 items-center">
+          {/* LEFT SIDE TEXT */}
+          <div>
+            <div className="space-y-10">
+              <div className="inline-block px-6 py-2 bg-rose-500 text-white rounded-full text-sm tracking-wide font-medium shadow-lg mb-4">
+                REAL STORIES
+              </div>
+
+              <h2
+                ref={headingRef}
+                className="text-4xl md:text-6xl lg:text-7xl font-bold text-gray-900 leading-tight mb-6"
+                style={{ fontFamily: "'Playfair Display', serif" }}
+              >
+                Real stories from real people
+              </h2>
+
+              <p
+                ref={subtextRef}
+                className="text-lg md:text-xl text-gray-600 leading-relaxed max-w-lg"
+              >
+                "The best relationships start when you're not looking — they
+                start when you're living."
+              </p>
             </div>
-            <h2
-              className="text-3xl md:text-5xl font-bold text-gray-900 leading-tight"
-              style={{ fontFamily: "'Playfair Display', serif" }}
-            >
-              Real stories from real people
-            </h2>
-            <p className="mt-3 text-gray-600 text-base md:text-lg max-w-2xl mx-auto">
-              "The best relationships start when you're not looking — they start
-              when you're living."
-            </p>
           </div>
 
-          <div className="flex-1 relative min-h-0">
-            <div className="flex w-full h-full gap-4 md:gap-8">
-              <div className="relative w-32 md:w-48 flex-shrink-0">
-                <div
-                  ref={fillRef}
-                  className="absolute left-0 top-0 w-[3px] bg-rose-400 origin-top rounded-full"
-                  style={{ height: "0%" }}
-                ></div>
-                <div className="absolute left-0 top-0 w-[3px] h-full bg-rose-100 rounded-full"></div>
-                <ul
-                  ref={listRef}
-                  className="list text-base md:text-xl font-semibold text-gray-400 space-y-4 md:space-y-6 pl-5 md:pl-6 relative"
-                >
-                  {STORIES.map((story, index) => (
-                    <li
-                      key={story.author + story.category}
-                      className="transition-colors duration-300 flex items-center"
-                      data-index={index}
-                    >
-                      <div className="absolute -left-5 md:-left-6 w-3 h-3 rounded-full bg-rose-100 border-2 border-white shadow-sm transition-all duration-300"></div>
-                      <span>{story.category}</span>
-                    </li>
-                  ))}
-                </ul>
-              </div>
+          {/* RIGHT SIDE - STORY CARDS */}
+          <div
+            ref={cardsRef}
+            className="relative h-[600px] md:h-[700px] flex items-center justify-center"
+          >
+            {STORIES.map((story, i) => (
+              <div
+                key={story.author + i}
+                className="story-card absolute inset-0 flex items-center justify-center"
+              >
+                <div className="w-full h-full rounded-3xl overflow-hidden shadow-2xl border border-gray-200 relative">
+                  <img
+                    src={story.imageUrl}
+                    alt={story.category}
+                    className="w-full h-full object-cover"
+                  />
 
-              <div className="relative flex-1 min-w-0 max-h-[55vh]">
-                <div ref={slidesRef} className="right w-full h-full relative">
-                  {STORIES.map((story) => (
-                    <StoryItem key={story.author + story.imageUrl} {...story} />
-                  ))}
+                  {/* Text overlay only at bottom */}
+                  <div className="absolute bottom-0 left-0 w-full bg-gradient-to-t from-black/60 via-black/1000 to-transparent p-6 md:p-8 rounded-b-3xl">
+                    <h3 className="text-2xl md:text-3xl font-bold text-white mb-2">
+                      {story.category}
+                    </h3>
+                    <p className="text-sm md:text-base mb-3 italic text-gray-100/90">
+                      {story.quote}
+                    </p>
+                    <div className="flex items-center space-x-3">
+                      <img
+                        src={story.avatarUrl}
+                        alt={story.author}
+                        className="w-8 h-8 md:w-10 md:h-10 rounded-full border-2 border-white"
+                      />
+                      <p className="text-sm font-semibold text-white">
+                        {story.author}, {story.age}
+                      </p>
+                    </div>
+                  </div>
                 </div>
               </div>
-            </div>
+            ))}
           </div>
         </div>
       </div>
