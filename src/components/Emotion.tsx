@@ -142,7 +142,7 @@ function Emotion() {
   return (
     <section
       data-scroll-section
-      className="min-h-screen flex items-center justify-center py-24 md:py-32 relative overflow-hidden bg-gradient-to-b from-pink-50 via-rose-50 to-amber-50"
+      className="min-h-screen flex items-center justify-center py-24 md:py-32 relative overflow-hidden bg-gradient-to-b from-pink-50 via-rose-50 to-amber-50 z-10"
     >
       {/* Animated background */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
