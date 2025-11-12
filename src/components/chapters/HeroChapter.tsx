@@ -24,9 +24,6 @@ export default function HeroChapter({ darkMode = false }: HeroChapterProps) {
     const sectionRef = useRef<HTMLElement>(null);
     const phoneRef = useRef<HTMLDivElement>(null);
     const titleRef = useRef<HTMLHeadingElement>(null);
-    const particlesRef = useRef<SVGSVGElement>(null);
-    const wavesRef = useRef<SVGSVGElement>(null);
-    const spiralRef = useRef<SVGSVGElement>(null);
 
     // --- SplitType Word Animation ---
     useEffect(() => {
@@ -84,57 +81,6 @@ export default function HeroChapter({ darkMode = false }: HeroChapterProps) {
             trigger?.kill();
             split?.revert();
         };
-    }, []);
-
-    // --- Hero-like background animations (particles, waves, spiral) ---
-    useEffect(() => {
-        const particles = particlesRef.current?.querySelectorAll("circle");
-        if (particles) {
-            particles.forEach((p, i) => {
-                gsap.to(p, {
-                    y: -20,
-                    x: -10,
-                    duration: 3 + Math.random() * 2,
-                    repeat: -1,
-                    yoyo: true,
-                    ease: "sine.inOut",
-                    delay: i * 0.3,
-                });
-            });
-        }
-
-        if (spiralRef.current) {
-            gsap.to(spiralRef.current, {
-                rotation: 360,
-                duration: 30,
-                repeat: -1,
-                ease: "none",
-            });
-        }
-
-        const wave1 = wavesRef.current?.querySelector("path:nth-child(1)");
-        const wave2 = wavesRef.current?.querySelector("path:nth-child(2)");
-
-        if (wave1) {
-            gsap.to(wave1, {
-                attr: { d: "M0,60 Q300,40 600,60 T1200,60 L1200,120 L0,120 Z" },
-                duration: 2.5,
-                repeat: -1,
-                yoyo: true,
-                ease: "sine.inOut",
-            });
-        }
-
-        if (wave2) {
-            gsap.to(wave2, {
-                attr: { d: "M0,80 Q300,60 600,80 T1200,80 L1200,120 L0,120 Z" },
-                duration: 2.5,
-                repeat: -1,
-                yoyo: true,
-                ease: "sine.inOut",
-                delay: 0.3,
-            });
-        }
     }, []);
 
     // --- Section + Phone fade-in (like HeroChapter intro) ---
@@ -230,52 +176,18 @@ export default function HeroChapter({ darkMode = false }: HeroChapterProps) {
             data-section="problem"
             className={`min-h-screen flex items-center justify-center py-24 md:py-32 relative overflow-hidden transition-colors duration-700 ${bgGradient}`}
         >
-            {/* Animated Background */}
+            {/* Minimal SVG Background */}
             <svg
-                ref={particlesRef}
-                className="absolute inset-0 w-full h-full pointer-events-none"
-                style={{ opacity: darkMode ? 0.2 : 0.3 }}
+                className="absolute inset-0 w-full h-full pointer-events-none opacity-20"
+                aria-hidden="true"
             >
-                {Array.from({ length: 8 }).map((_, i) => (
-                    <circle
-                        key={i}
-                        cx={`${10 + i * 10}%`}
-                        cy={`${20 + i * 5}%`}
-                        r={Math.random() * 3 + 2}
-                        fill={particleColors[i % particleColors.length]}
-                    />
-                ))}
-            </svg>
-
-            <svg
-                ref={spiralRef}
-                className="absolute top-1/4 right-5 w-24 h-24 pointer-events-none"
-                viewBox="0 0 100 100"
-                style={{ opacity: darkMode ? 0.15 : 0.2 }}
-            >
-                <path
-                    d="M50,50 Q60,30 70,40 T80,60 Q75,75 60,75 T40,65 Q35,50 45,40"
-                    fill="none"
-                    stroke={particleColors[0]}
-                    strokeWidth="2"
-                />
-            </svg>
-
-            <svg
-                ref={wavesRef}
-                className="absolute bottom-0 left-0 w-full h-24 pointer-events-none"
-                viewBox="0 0 1200 120"
-                preserveAspectRatio="none"
-                style={{ opacity: darkMode ? 0.1 : 0.15 }}
-            >
-                <path
-                    d="M0,60 Q300,20 600,60 T1200,60 L1200,120 L0,120 Z"
-                    fill={particleColors[0]}
-                />
-                <path
-                    d="M0,80 Q300,40 600,80 T1200,80 L1200,120 L0,120 Z"
-                    fill={particleColors[1]}
-                />
+                <defs>
+                    <pattern id="minimal-pattern" width="80" height="80" patternUnits="userSpaceOnUse">
+                        <circle cx="10" cy="10" r="2" fill="currentColor" />
+                        <circle cx="70" cy="70" r="2" fill="currentColor" />
+                    </pattern>
+                </defs>
+                <rect width="100%" height="100%" fill="url(#minimal-pattern)" />
             </svg>
 
             {/* Content */}
