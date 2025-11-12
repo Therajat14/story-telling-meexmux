@@ -166,7 +166,8 @@ function RealStories() {
                 className="text-4xl md:text-6xl lg:text-7xl font-bold text-gray-900 leading-tight mb-6"
                 style={{ fontFamily: "'Playfair Display', serif" }}
               >
-                Real stories from real people
+                Real stories <span className="inline-block">from</span> real
+                people
               </h2>
 
               <p
