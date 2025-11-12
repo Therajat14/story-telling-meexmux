@@ -64,6 +64,7 @@ function RealStories() {
   const headingRef = useRef<HTMLHeadingElement>(null);
   const subtextRef = useRef<HTMLParagraphElement>(null);
   const cardsRef = useRef<HTMLDivElement>(null);
+  const progressSvgRef = useRef<SVGSVGElement>(null);
 
   useEffect(() => {
     // Animate heading
@@ -114,16 +115,33 @@ function RealStories() {
     });
 
     cards.forEach((card, i) => {
-      const prev = cards[i - 1];
-      if (prev) {
-        tl.to(prev, {
+      const indicator = progressSvgRef.current?.querySelector(
+        `.story-indicator:nth-child(${i + 1})`
+      );
+
+      if (i > 0) {
+        tl.to(cards[i - 1], {
           opacity: 0,
           scale: 0.9,
           yPercent: -20,
           duration: 0.5,
           ease: "power2.out",
         });
+        if (indicator) {
+          tl.to(
+            progressSvgRef.current?.querySelector(
+              `.story-indicator:nth-child(${i})`
+            ),
+            {
+              fill: "#ffffff80",
+              scale: 1,
+              duration: 0.3,
+            },
+            "<"
+          );
+        }
       }
+
       tl.to(
         card,
         {
@@ -135,6 +153,17 @@ function RealStories() {
         },
         "<"
       );
+      if (indicator) {
+        tl.to(
+          indicator,
+          {
+            fill: "#ffffff", // Active color
+            scale: 1.2,
+            duration: 0.3,
+          },
+          "<"
+        );
+      }
     });
 
     return () => {
@@ -219,6 +248,24 @@ function RealStories() {
                 </div>
               </div>
             ))}
+            {/* Story Progress Indicator */}
+            <svg
+              ref={progressSvgRef}
+              className="absolute bottom-4 left-1/2 -translate-x-1/2 z-20"
+              width={STORIES.length * 20}
+              height="10"
+            >
+              {STORIES.map((_, i) => (
+                <circle
+                  key={i}
+                  cx={10 + i * 20}
+                  cy="5"
+                  r="4"
+                  fill="#ffffff80" // Default inactive color
+                  className="story-indicator"
+                />
+              ))}
+            </svg>
           </div>
         </div>
       </div>
