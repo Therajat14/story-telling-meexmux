@@ -6,9 +6,9 @@ import JourneyContinueChapter from "./chapters/JourneyContinueChapter";
 interface JourneyContinueProps {}
 
 const JourneyContinue = forwardRef<HTMLElement, JourneyContinueProps>(
-    ({}, ref) => {
-        return <JourneyContinueChapter darkMode={false} />;
-    }
+  ({}, ref) => {
+    return <JourneyContinueChapter darkMode={false} />;
+  }
 );
 
 JourneyContinue.displayName = "JourneyContinue";

@@ -8,6 +8,7 @@ import RealStories from "./components/RealStories";
 import Invitation from "./components/Invitation";
 import DiscoveryChapter from "./components/DiscoveryChapter";
 import JourneyContinue from "./components/JourneyContinue";
+import YourTurnChapter from "./components/chapters/YourTurnChapter";
 
 function App() {
   return (
@@ -22,9 +23,10 @@ function App() {
       {/* <Spark /> */}
       <Experience />
       <AI />
-      <Emotion />
+      {/* <Emotion /> */}
       <RealStories />
       <JourneyContinue />
+      <YourTurnChapter darkMode={true} />
       <Invitation />
     </div>
   );

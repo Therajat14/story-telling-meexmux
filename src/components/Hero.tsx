@@ -56,6 +56,29 @@ function Hero() {
       ease: "none",
     });
 
+    // Animate movable background circles
+    gsap.to(".movable-circle", {
+      y: (i, target) => {
+        // Move circles based on their initial position and index
+        const initialY = parseFloat(target.getAttribute("cy"));
+        return initialY > 50 ? "-=100" : "+=100"; // Move up if lower half, down if upper half
+      },
+      x: (i, target) => {
+        const initialX = parseFloat(target.getAttribute("cx"));
+        return initialX > 50 ? "-=50" : "+=50"; // Move left if right half, right if left half
+      },
+      duration: 3,
+      ease: "power1.inOut",
+      repeat: -1,
+      yoyo: true,
+      scrollTrigger: {
+        trigger: sectionRef.current,
+        start: "top bottom",
+        end: "bottom top",
+        scrub: true,
+      },
+    });
+
     return () => {
       clearTimeout(timer);
       tl.kill(); // Kill the timeline on unmount
@@ -75,6 +98,19 @@ function Hero() {
         data-parallax="-1"
         className="absolute inset-0 bg-gradient-to-br from-peach-100 via-lavender-50 to-sage-100 opacity-60"
       />
+
+      {/* Moveable SVG Background */}
+      <svg
+        className="absolute inset-0 w-full h-full pointer-events-none opacity-50"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <g className="movable-bg-elements">
+          <circle cx="10%" cy="10%" r="15" fill="#fbcfe8" className="movable-circle" />
+          <circle cx="90%" cy="30%" r="20" fill="#a78bfa" className="movable-circle" />
+          <circle cx="30%" cy="80%" r="10" fill="#fbcfe8" className="movable-circle" />
+          <circle cx="70%" cy="60%" r="25" fill="#a78bfa" className="movable-circle" />
+        </g>
+      </svg>
 
       {/* Floating decorative elements */}
       <div className="absolute inset-0 overflow-hidden pointer-events-none">
